@@ -1,0 +1,22 @@
+.status-bar {
+  margin-bottom: 16rpx;
+}
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 16rpx 0;
+  font-size: 28rpx;
+}
+.tips {
+  margin-top: 32rpx;
+  padding: 24rpx;
+  background: #FAF9F6;
+  border-left: 4rpx solid #C8A96A;
+  font-size: 22rpx;
+  color: #8A8A8A;
+  line-height: 1.8;
+}
+.footer {
+  margin-top: 48rpx;
+}
+.footer .btn { width: 100%; }

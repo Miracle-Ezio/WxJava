@@ -1,12 +1,77 @@
 <view class="page">
-  <view class="title-xl">预约</view>
-  <view class="text-secondary" style="margin-top: 16rpx;">为您安排时间</view>
-  <view class="card" style="margin-top: 48rpx;">
+  <view class="header">
+    <view>
+      <view class="title-xl">我的预约</view>
+      <view class="text-secondary" style="margin-top: 8rpx;">为您安排时间</view>
+    </view>
+    <view class="add-btn" bindtap="goNew">+ 新预约</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">加载中…</view>
+
+  <view wx:elif="{{!list.length}}" class="card" style="margin-top: 48rpx;">
     <view class="empty">
-      <view>即将上线</view>
+      <view>还没有预约</view>
       <view class="text-muted" style="margin-top: 16rpx; font-size: 22rpx;">
-        选择项目 · 选择门店 · 选择时段 · 一键提交
+        点击右上角"+ 新预约"，选项目、选时间，一键预约
       </view>
+      <button class="btn btn--primary" style="margin-top: 32rpx;" bindtap="goNew">立即预约</button>
     </view>
   </view>
+
+  <block wx:else>
+    <view
+      class="appt-card"
+      wx:for="{{list}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="goDetail"
+    >
+      <view class="appt-card__head">
+        <view class="appt-card__time">
+          <view class="appt-card__date">{{getDate(item.startAt)}}</view>
+          <view class="appt-card__hhmm">{{getTime(item.startAt)}} - {{getTime(item.endAt)}}</view>
+        </view>
+        <view class="tag tag--gold"    wx:if="{{item.status === 1}}">待确认</view>
+        <view class="tag tag--success" wx:elif="{{item.status === 2}}">已确认</view>
+        <view class="tag tag--ink"     wx:elif="{{item.status === 3}}">已到店</view>
+        <view class="tag tag--neutral" wx:elif="{{item.status === 4}}">已完成</view>
+        <view class="tag tag--neutral" wx:elif="{{item.status === 5 || item.status === 6}}">已取消</view>
+        <view class="tag tag--warning" wx:elif="{{item.status === 7}}">未到</view>
+      </view>
+      <view class="appt-card__project">{{item.projectName}}</view>
+      <view class="appt-card__store text-secondary">{{item.storeName}} · {{item.durationMin}} 分钟</view>
+      <view class="appt-card__foot" wx:if="{{item.status === 1 || item.status === 2}}">
+        <view class="text-accent" style="font-size: 22rpx;">{{relativeFromNow(item.startAt)}}</view>
+      </view>
+    </view>
+  </block>
 </view>
+
+<wxs module="getDate">
+  module.exports = function(s) {
+    if (!s) return '';
+    return ('' + s).slice(5, 10);
+  }
+</wxs>
+<wxs module="getTime">
+  module.exports = function(s) {
+    if (!s) return '';
+    var t = ('' + s).split('T');
+    return t.length > 1 ? t[1].slice(0, 5) : '';
+  }
+</wxs>
+<wxs module="relativeFromNow">
+  module.exports = function(s) {
+    if (!s) return '';
+    var t = Date.parse(('' + s).replace(' ', 'T'));
+    var diff = t - Date.now();
+    var min = Math.round(diff / 60000);
+    if (min < -60) return '已过期';
+    if (min < 0)   return '刚刚';
+    if (min < 60)  return min + ' 分钟后';
+    var hr = Math.round(min / 60);
+    if (hr < 24)   return hr + ' 小时后';
+    return Math.round(hr / 24) + ' 天后';
+  }
+</wxs>

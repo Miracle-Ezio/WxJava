@@ -1,0 +1,60 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 16rpx 8rpx 24rpx;
+}
+.add-btn {
+  height: 64rpx;
+  padding: 0 24rpx;
+  line-height: 64rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #0A0A0A;
+  border-radius: 32rpx;
+  letter-spacing: 1rpx;
+}
+
+.appt-card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(10, 10, 10, 0.04);
+}
+.appt-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24rpx;
+}
+.appt-card__date {
+  font-family: "Times New Roman", serif;
+  font-size: 40rpx;
+  font-weight: 600;
+  letter-spacing: 2rpx;
+  color: #0A0A0A;
+}
+.appt-card__hhmm {
+  margin-top: 4rpx;
+  font-size: 22rpx;
+  color: #8A8A8A;
+  letter-spacing: 1rpx;
+}
+.appt-card__project {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #0A0A0A;
+  margin-bottom: 8rpx;
+}
+.appt-card__store {
+  font-size: 22rpx;
+}
+.appt-card__foot {
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #ECECEC;
+  display: flex;
+  justify-content: flex-end;
+}

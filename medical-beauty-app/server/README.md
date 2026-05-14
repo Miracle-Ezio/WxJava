@@ -71,6 +71,12 @@ mvn spring-boot:run
 | GET    | `/api/photos/{id}` | 照片详情（含签名 URL） | 是 |
 | DELETE | `/api/photos/{id}` | 软删除（COS 对象 90 天后硬删） | 是 |
 | POST   | `/api/photos/{id}/lock?lock=` | 锁定 / 解锁（员工不可见） | 是 |
+| GET    | `/api/projects` | 项目列表（下单用） | 是 |
+| GET    | `/api/appointments/availability?storeId=&projectId=&date=` | 某门店 / 项目 / 日期的可约时段 | 是 |
+| POST   | `/api/appointments` | 客户自助预约（事务 + FOR UPDATE 防超卖） | 是 |
+| GET    | `/api/appointments/mine` | 我的预约 | 是 |
+| GET    | `/api/appointments/{id}` | 预约详情 | 是 |
+| POST   | `/api/appointments/{id}/cancel` | 客户取消（≥ 2h 前） | 是 |
 
 返回统一格式：
 ```json
@@ -92,7 +98,8 @@ mvn spring-boot:run
 
 按 PRD 优先级：
 1. ~~**照片对比模块**~~ ✅ 已完成
-2. **预约模块**（`schedule_slot` + `appointment` + 事务行锁）
+2. ~~**预约模块**~~ ✅ 已完成（REPEATABLE_READ + `FOR UPDATE` 防超卖）
 3. **储值 / 等级**（`wallet` + `wallet_transaction` 不可改流水）
 4. **顾问端规划方案编辑器 API**（POST/PUT `/api/admin/plans`）
-5. **照片相关增强**：直传 STS 模式、缩略图生成、定时硬删 90 天前的软删对象
+5. **预约后续**：员工端确认/到店/完成、订阅消息提醒（到店前 24h / 2h）
+6. **照片增强**：直传 STS、缩略图、定时硬删

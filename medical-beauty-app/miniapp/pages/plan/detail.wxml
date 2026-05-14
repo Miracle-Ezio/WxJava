@@ -69,7 +69,11 @@
           wx:key="id"
         >
           <view class="item-card__head">
-            <view class="item-card__name">{{it.projectName}}</view>
+            <view
+              class="item-card__name"
+              data-pid="{{it.projectId}}"
+              bindtap="goBookForItem"
+            >{{it.projectName}} ›</view>
             <view class="tag tag--neutral" wx:if="{{it.status === 1}}">未开始</view>
             <view class="tag tag--gold"    wx:elif="{{it.status === 2}}">进行中</view>
             <view class="tag tag--success" wx:elif="{{it.status === 3}}">已完成</view>

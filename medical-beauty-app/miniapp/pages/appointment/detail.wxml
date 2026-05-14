@@ -1,0 +1,71 @@
+<view class="page" wx:if="{{detail}}">
+
+  <view class="status-bar">
+    <view class="tag tag--gold"    wx:if="{{detail.status === 1}}">{{detail.statusLabel}}</view>
+    <view class="tag tag--success" wx:elif="{{detail.status === 2}}">{{detail.statusLabel}}</view>
+    <view class="tag tag--ink"     wx:elif="{{detail.status === 3}}">{{detail.statusLabel}}</view>
+    <view class="tag tag--neutral" wx:else>{{detail.statusLabel}}</view>
+  </view>
+
+  <view class="title-xl">{{detail.projectName}}</view>
+  <view class="text-secondary" style="margin-top: 8rpx;">{{detail.storeName}}</view>
+
+  <view class="card" style="margin-top: 48rpx;">
+    <view class="row">
+      <text class="text-muted">日期</text>
+      <text>{{getDate(detail.startAt)}}</text>
+    </view>
+    <view class="divider"></view>
+    <view class="row">
+      <text class="text-muted">时间</text>
+      <text>{{getTime(detail.startAt)}} - {{getTime(detail.endAt)}}</text>
+    </view>
+    <view class="divider"></view>
+    <view class="row">
+      <text class="text-muted">时长</text>
+      <text>{{detail.durationMin}} 分钟</text>
+    </view>
+    <view class="divider" wx:if="{{detail.consultantName}}"></view>
+    <view class="row" wx:if="{{detail.consultantName}}">
+      <text class="text-muted">咨询顾问</text>
+      <text>{{detail.consultantName}}</text>
+    </view>
+    <view class="divider" wx:if="{{detail.unitPrice}}"></view>
+    <view class="row" wx:if="{{detail.unitPrice}}">
+      <text class="text-muted">参考价格</text>
+      <text class="text-accent" style="font-weight: 500;">¥{{detail.unitPrice}}</text>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{detail.customerNote}}">
+    <view class="text-muted" style="font-size: 22rpx; margin-bottom: 12rpx;">您的备注</view>
+    <view>{{detail.customerNote}}</view>
+  </view>
+
+  <view class="card" wx:if="{{detail.cancelReason}}">
+    <view class="text-muted" style="font-size: 22rpx; margin-bottom: 12rpx;">取消原因</view>
+    <view>{{detail.cancelReason}}</view>
+  </view>
+
+  <view class="tips" wx:if="{{detail.status === 1 || detail.status === 2}}">
+    · 到店前请保持面部清洁、避免化妆
+    · 如临时有变请提前 2 小时取消
+  </view>
+
+  <view class="footer" wx:if="{{detail.canCancel}}">
+    <button class="btn btn--ghost" bindtap="onCancel">取消预约</button>
+  </view>
+</view>
+
+<view wx:else class="empty">加载中…</view>
+
+<wxs module="getDate">
+  module.exports = function(s) { return s ? ('' + s).slice(0, 10) : ''; }
+</wxs>
+<wxs module="getTime">
+  module.exports = function(s) {
+    if (!s) return '';
+    var t = ('' + s).split('T');
+    return t.length > 1 ? t[1].slice(0, 5) : '';
+  }
+</wxs>

@@ -1,0 +1,154 @@
+<view class="page">
+
+  <!-- 步骤条 -->
+  <view class="stepper">
+    <view class="step {{step >= 1 ? 'step--active' : ''}}">
+      <view class="step__num">1</view>
+      <view class="step__label">项目</view>
+    </view>
+    <view class="step__line {{step >= 2 ? 'step__line--active' : ''}}"></view>
+    <view class="step {{step >= 2 ? 'step--active' : ''}}">
+      <view class="step__num">2</view>
+      <view class="step__label">日期</view>
+    </view>
+    <view class="step__line {{step >= 3 ? 'step__line--active' : ''}}"></view>
+    <view class="step {{step >= 3 ? 'step--active' : ''}}">
+      <view class="step__num">3</view>
+      <view class="step__label">时段</view>
+    </view>
+    <view class="step__line {{step >= 4 ? 'step__line--active' : ''}}"></view>
+    <view class="step {{step >= 4 ? 'step--active' : ''}}">
+      <view class="step__num">4</view>
+      <view class="step__label">确认</view>
+    </view>
+  </view>
+
+  <!-- ───────── 步骤 1：选项目 ───────── -->
+  <block wx:if="{{step === 1}}">
+    <view class="section-title title-lg">选择项目</view>
+    <view wx:if="{{!projects.length}}" class="empty">暂无可预约项目</view>
+    <view
+      class="proj-card {{selectedProject.id === item.id ? 'proj-card--active' : ''}}"
+      wx:for="{{projects}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onSelectProject"
+    >
+      <view class="proj-card__head">
+        <view class="proj-card__name">{{item.name}}</view>
+        <view class="text-accent" wx:if="{{item.unitPrice}}" style="font-weight: 500;">¥{{item.unitPrice}}</view>
+      </view>
+      <view class="text-secondary" style="font-size: 22rpx; margin-top: 8rpx;">
+        {{item.category || ''}}{{item.category && item.durationMin ? ' · ' : ''}}{{item.durationMin ? item.durationMin + ' 分钟' : ''}}
+      </view>
+      <view class="text-secondary" style="font-size: 22rpx; margin-top: 8rpx;" wx:if="{{item.description}}">
+        {{item.description}}
+      </view>
+    </view>
+  </block>
+
+  <!-- ───────── 步骤 2：选日期 ───────── -->
+  <block wx:elif="{{step === 2}}">
+    <view class="section-title title-lg">选择日期</view>
+    <view class="text-secondary" style="margin-bottom: 24rpx;">{{selectedProject.name}}</view>
+    <scroll-view class="date-bar" scroll-x scroll-with-animation>
+      <view
+        class="date-cell {{selectedDate === item.date ? 'date-cell--active' : ''}}"
+        wx:for="{{dates}}"
+        wx:key="date"
+        data-date="{{item.date}}"
+        bindtap="onSelectDate"
+      >
+        <view class="date-cell__week">{{item.weekLabel}}</view>
+        <view class="date-cell__day">{{item.day}}</view>
+        <view class="date-cell__month">{{item.month}}月</view>
+      </view>
+    </scroll-view>
+  </block>
+
+  <!-- ───────── 步骤 3：选时段 ───────── -->
+  <block wx:elif="{{step === 3}}">
+    <view class="section-title title-lg">选择时段</view>
+    <view class="text-secondary" style="margin-bottom: 24rpx;">
+      {{selectedProject.name}} · {{selectedDate}}
+    </view>
+
+    <view wx:if="{{availability.openAt && availability.closeAt}}" class="hours-hint text-muted">
+      营业时段 {{availability.openAt}} - {{availability.closeAt}} · 同时段最多接待 {{availability.capacity}} 人
+    </view>
+
+    <view wx:if="{{availability.slots.length}}" class="slot-grid">
+      <view
+        class="slot {{!s.available ? 'slot--disabled' : ''}} {{selectedTime === s.time ? 'slot--active' : ''}}"
+        wx:for="{{availability.slots}}"
+        wx:for-item="s"
+        wx:key="time"
+        data-time="{{s.time}}"
+        data-available="{{s.available}}"
+        bindtap="onSelectTime"
+      >{{s.time}}</view>
+    </view>
+    <view wx:else class="empty">当日无可约时段，请换一天</view>
+  </block>
+
+  <!-- ───────── 步骤 4：确认 ───────── -->
+  <block wx:elif="{{step === 4}}">
+    <view class="section-title title-lg">确认预约</view>
+
+    <view class="card">
+      <view class="confirm-row">
+        <text class="text-muted">项目</text>
+        <text style="font-weight: 500;">{{selectedProject.name}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="confirm-row">
+        <text class="text-muted">日期</text>
+        <text>{{selectedDate}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="confirm-row">
+        <text class="text-muted">时间</text>
+        <text>{{selectedTime}}（{{selectedProject.durationMin || 60}} 分钟）</text>
+      </view>
+      <view class="divider" wx:if="{{selectedProject.unitPrice}}"></view>
+      <view class="confirm-row" wx:if="{{selectedProject.unitPrice}}">
+        <text class="text-muted">参考价格</text>
+        <text class="text-accent">¥{{selectedProject.unitPrice}}</text>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="text-muted" style="font-size: 22rpx; margin-bottom: 12rpx;">备注（可选）</view>
+      <textarea
+        class="note-input"
+        placeholder="想和顾问说点什么？"
+        maxlength="200"
+        bindinput="onNoteInput"
+        value="{{customerNote}}"
+      />
+    </view>
+
+    <view class="tips">
+      · 提交后顾问会与您确认
+      · 开始前 2 小时内可以联系顾问改期
+    </view>
+  </block>
+
+  <!-- ───────── 底部按钮区 ───────── -->
+  <view class="footer">
+    <button class="btn btn--ghost"  wx:if="{{step > 1}}" bindtap="onBack">上一步</button>
+    <button
+      class="btn btn--primary"
+      wx:if="{{step < 4}}"
+      bindtap="onNext"
+      disabled="{{!canNext}}"
+    >下一步</button>
+    <button
+      class="btn btn--primary"
+      wx:else
+      bindtap="onSubmit"
+      loading="{{submitting}}"
+      disabled="{{submitting}}"
+    >提交预约</button>
+  </view>
+</view>

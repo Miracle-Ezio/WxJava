@@ -8,6 +8,8 @@
     "pages/plan/list",
     "pages/photos/upload",
     "pages/photos/compare",
+    "pages/appointment/new",
+    "pages/appointment/detail",
     "pages/login/index"
   ],
   "window": {

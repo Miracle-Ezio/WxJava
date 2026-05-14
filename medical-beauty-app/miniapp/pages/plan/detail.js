@@ -30,6 +30,12 @@ Page({
     });
   },
 
+  goBookForItem(e) {
+    const pid = e.currentTarget.dataset.pid;
+    if (!pid) return;
+    wx.navigateTo({ url: '/pages/appointment/new?projectId=' + pid });
+  },
+
   onExportPdf() {
     wx.showToast({ title: 'PDF 导出（二期）', icon: 'none' });
   },
