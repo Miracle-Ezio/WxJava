@@ -1,0 +1,123 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 16rpx 8rpx 24rpx;
+}
+.add-btn {
+  height: 64rpx;
+  padding: 0 24rpx;
+  line-height: 64rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #FFFFFF;
+  background: #0A0A0A;
+  border-radius: 32rpx;
+  letter-spacing: 1rpx;
+}
+
+.pose-bar {
+  white-space: nowrap;
+  padding: 16rpx 0 24rpx;
+}
+.pose-chip {
+  display: inline-block;
+  padding: 12rpx 28rpx;
+  font-size: 24rpx;
+  color: #8A8A8A;
+  background: #FFFFFF;
+  border-radius: 999rpx;
+  margin-right: 12rpx;
+  border: 1rpx solid #ECECEC;
+}
+.pose-chip--active {
+  background: #0A0A0A;
+  color: #FFFFFF;
+  border-color: #0A0A0A;
+}
+
+/* ── 快捷对比卡 ──────────────────────── */
+.quick { padding: 24rpx; }
+.quick__row {
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+}
+.quick__photo { flex: 1; text-align: center; }
+.quick__img {
+  width: 100%;
+  height: 240rpx;
+  border-radius: 12rpx;
+  background: #F5F5F5;
+}
+.quick__label {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #8A8A8A;
+}
+.quick__arrow {
+  width: 60rpx;
+  text-align: center;
+  font-size: 32rpx;
+  color: #C8A96A;
+}
+.quick__action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16rpx;
+}
+
+/* ── 时间轴 ──────────────────────── */
+.month-block { margin-top: 32rpx; }
+.month-label {
+  font-size: 24rpx;
+  color: #8A8A8A;
+  letter-spacing: 2rpx;
+  padding: 0 8rpx 16rpx;
+  border-bottom: 1rpx solid #ECECEC;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8rpx;
+  margin-top: 16rpx;
+}
+.grid-item {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 8rpx;
+  overflow: hidden;
+  background: #ECECEC;
+}
+.grid-img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+}
+.grid-tag {
+  position: absolute;
+  left: 8rpx;
+  bottom: 8rpx;
+  padding: 4rpx 12rpx;
+  font-size: 20rpx;
+  color: #FFFFFF;
+  background: rgba(10, 10, 10, 0.6);
+  border-radius: 4rpx;
+}
+.grid-lock {
+  position: absolute;
+  right: 8rpx;
+  top: 8rpx;
+  font-size: 22rpx;
+}
+
+.privacy-note {
+  margin-top: 64rpx;
+  padding: 24rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: #B8B8B8;
+  letter-spacing: 1rpx;
+}

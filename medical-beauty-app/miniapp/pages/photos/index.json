@@ -1,1 +1,4 @@
-{ "navigationBarTitleText": "我的对比" }
+{
+  "navigationBarTitleText": "我的对比",
+  "enablePullDownRefresh": true
+}

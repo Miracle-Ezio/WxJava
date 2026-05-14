@@ -22,6 +22,7 @@
         <wx-java.version>4.8.3.B</wx-java.version>
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <jjwt.version>0.12.5</jjwt.version>
+        <tencent-cos.version>5.6.155</tencent-cos.version>
     </properties>
 
     <dependencies>
@@ -89,6 +90,13 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>${jjwt.version}</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- Tencent COS 对象存储 -->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+            <version>${tencent-cos.version}</version>
         </dependency>
 
         <!-- Utils -->

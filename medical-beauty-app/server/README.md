@@ -61,9 +61,16 @@ mvn spring-boot:run
 
 | 方法 | 路径 | 说明 | 鉴权 |
 | --- | --- | --- | --- |
-| POST | `/api/auth/wx-login` | 微信小程序登录 | 否 |
-| GET  | `/api/plans/mine` | 我的全部规划方案 | 是 |
-| GET  | `/api/plans/{id}` | 规划方案详情 | 是 |
+| POST   | `/api/auth/wx-login` | 微信小程序登录 | 否 |
+| GET    | `/api/plans/mine` | 我的全部规划方案 | 是 |
+| GET    | `/api/plans/{id}` | 规划方案详情 | 是 |
+| POST   | `/api/photos` (multipart) | 上传照片（file + pose + visibility） | 是 |
+| GET    | `/api/photos/timeline?pose=` | 按月分组时间轴 | 是 |
+| GET    | `/api/photos/compare/quick?pose=` | 同机位 首张 vs 最新 | 是 |
+| GET    | `/api/photos/compare?before=&after=` | 指定两张对比 | 是 |
+| GET    | `/api/photos/{id}` | 照片详情（含签名 URL） | 是 |
+| DELETE | `/api/photos/{id}` | 软删除（COS 对象 90 天后硬删） | 是 |
+| POST   | `/api/photos/{id}/lock?lock=` | 锁定 / 解锁（员工不可见） | 是 |
 
 返回统一格式：
 ```json
@@ -84,7 +91,8 @@ mvn spring-boot:run
 ## 下一步开发
 
 按 PRD 优先级：
-1. **照片对比模块**（`customer_photo` 表 + COS SDK + 签名 URL 服务）
+1. ~~**照片对比模块**~~ ✅ 已完成
 2. **预约模块**（`schedule_slot` + `appointment` + 事务行锁）
 3. **储值 / 等级**（`wallet` + `wallet_transaction` 不可改流水）
 4. **顾问端规划方案编辑器 API**（POST/PUT `/api/admin/plans`）
+5. **照片相关增强**：直传 STS 模式、缩略图生成、定时硬删 90 天前的软删对象

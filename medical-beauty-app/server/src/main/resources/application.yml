@@ -6,6 +6,10 @@ server:
 spring:
   application:
     name: medical-beauty-server
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 30MB
   datasource:
     url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:starry_mb}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     username: ${DB_USER:root}
@@ -51,13 +55,14 @@ starry:
     expires-hours: 168            # 7 天
     refresh-expires-days: 30
   cos:
-    # 阿里 OSS / 腾讯 COS；先占位
-    endpoint: ${COS_ENDPOINT:}
-    bucket: ${COS_BUCKET:}
-    region: ${COS_REGION:}
-    access-key: ${COS_AK:}
-    secret-key: ${COS_SK:}
+    # 腾讯云 COS。未配置时 StorageService 走 Noop，应用能起来但上传/签名调用会报错。
+    secret-id:  ${COS_SECRET_ID:}
+    secret-key: ${COS_SECRET_KEY:}
+    region:     ${COS_REGION:ap-beijing}
+    bucket:     ${COS_BUCKET:}
+    endpoint:   ${COS_ENDPOINT:}
     signed-url-ttl-seconds: 300
+    sts-duration-seconds: 1800
   demo:
     # 一期单租户演示：兜底租户 / 门店 id
     default-tenant-id: 1

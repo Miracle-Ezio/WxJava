@@ -6,6 +6,8 @@
     "pages/profile/index",
     "pages/plan/detail",
     "pages/plan/list",
+    "pages/photos/upload",
+    "pages/photos/compare",
     "pages/login/index"
   ],
   "window": {

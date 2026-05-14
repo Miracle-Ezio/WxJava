@@ -14,21 +14,22 @@ medical-beauty-app/
 
 ## 当前进度（一期 MVP）
 
-**已完成（"规划方案"垂直切片）：**
+**已完成（一期已覆盖 2 个垂直切片）：**
 - ✅ 设计文档 v0.2
 - ✅ 后端骨架：Spring Boot + WxJava 登录 + JWT + 异常 + 拦截器
 - ✅ 多租户 / 多门店字段 + MyBatis-Plus 自动填充
-- ✅ Flyway 初始迁移（8 张核心表）+ PPT 同款演示数据
+- ✅ Flyway 迁移：V1 核心 8 表 + V2 PPT 同款 seed + V3 customer_photo
 - ✅ 微信小程序登录（`wx.login` → `code2Session` → 入库 → 发 JWT）
-- ✅ 规划方案 API：`GET /api/plans/mine`、`GET /api/plans/{id}`
-- ✅ 小程序前端：登录页 / 首页 / 规划详情页 / 列表页 / Tab 占位
+- ✅ 规划方案 API + 详情页（替代 PPT 的核心）
+- ✅ **照片模块**：腾讯云 COS（私有桶 + 签名 URL 5 min） + 后端中转上传 + tenant/customer 前缀隔离
+- ✅ **小程序照片端**：时间轴（按月 + 机位筛选）、4 机位拍照引导（半透明上一张做对齐）、滑动 / 并排两种对比模式、长按多选对比
 
 **待开发（一期剩余）：**
-- ⏳ 照片对比模块（COS 私有桶 + 签名 URL）
 - ⏳ 预约模块（schedule_slot 库存 + 行锁防超卖）
 - ⏳ 储值卡 / 等级
 - ⏳ 顾问端"规划方案制作器"
 - ⏳ 管理后台 Web
+- ⏳ 照片增强：缩略图（异步生成）+ 90 天硬删调度任务 + 直传 STS 升级
 
 ## 后端
 
@@ -46,11 +47,25 @@ docker run -d --name starry-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root \
   -e MYSQL_DATABASE=starry_mb mysql:8.0
 docker run -d --name starry-redis -p 6379:6379 redis:7-alpine
 
-# 2. 启动后端
-cd server
-mvn spring-boot:run \
-  -Dspring-boot.run.jvmArguments="-DWX_MA_APPID=xxx -DWX_MA_SECRET=xxx"
+# 2. 配置环境变量（最少必填）
+export WX_MA_APPID=wx你的小程序AppID
+export WX_MA_SECRET=你的小程序AppSecret
+# 照片模块需要：（未配置时应用能起来，上传会返回 50001）
+export COS_SECRET_ID=你的腾讯云SecretId
+export COS_SECRET_KEY=你的腾讯云SecretKey
+export COS_REGION=ap-beijing
+export COS_BUCKET=starry-private-1300000000
 
-# 3. 用微信开发者工具打开 miniapp/ 目录
+# 3. 启动后端（Flyway 自动建表 + 灌演示数据）
+cd server
+mvn spring-boot:run
+
+# 4. 用微信开发者工具打开 miniapp/ 目录
 #    修改 app.js apiBase / project.config.json appid 后导入
 ```
+
+### 腾讯云 COS 桶要求
+
+- 类型：**私有读写**（重要：医美照片不可公开）
+- 跨域 CORS：允许 PUT/POST，Origin 允许小程序登录态域名
+- 生命周期：建议对 `tenants/*/customers/*` 前缀启用 90 天后转低频，1 年后归档

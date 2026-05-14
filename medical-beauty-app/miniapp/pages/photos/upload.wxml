@@ -1,0 +1,77 @@
+<view class="upload">
+
+  <!-- 顶部栏 -->
+  <view class="topbar">
+    <view class="topbar__close" bindtap="onClose">✕</view>
+    <view class="topbar__title">{{currentPose.label}}</view>
+    <view class="topbar__hint">{{currentPose.desc}}</view>
+  </view>
+
+  <!-- 相机 / 预览 -->
+  <view class="stage">
+    <block wx:if="{{!previewPath}}">
+      <camera
+        device-position="{{cameraFacing}}"
+        flash="off"
+        binderror="onCameraError"
+        class="camera"
+      ></camera>
+
+      <!-- 上一次同机位照片做半透明对齐蒙版 -->
+      <image
+        wx:if="{{lastPhotoUrl}}"
+        class="overlay-ghost"
+        src="{{lastPhotoUrl}}"
+        mode="aspectFill"
+      />
+
+      <!-- 椭圆人脸蒙版引导线 -->
+      <view class="face-mask face-mask--{{currentPose.maskType}}"></view>
+
+      <view class="stage__tip" wx:if="{{lastPhotoUrl}}">
+        ↑ 半透明为上次照片，对齐五官位置
+      </view>
+    </block>
+
+    <image
+      wx:else
+      class="preview"
+      src="{{previewPath}}"
+      mode="aspectFit"
+    />
+  </view>
+
+  <!-- 机位选择 -->
+  <view class="pose-tabs" wx:if="{{!previewPath}}">
+    <view
+      class="pose-tab {{currentPoseIdx === idx ? 'pose-tab--active' : ''}}"
+      wx:for="{{poses}}"
+      wx:key="code"
+      wx:for-index="idx"
+      data-idx="{{idx}}"
+      bindtap="onSelectPose"
+    >{{item.label}}</view>
+  </view>
+
+  <!-- 底部操作区 -->
+  <view class="actions">
+    <block wx:if="{{!previewPath}}">
+      <view class="action-secondary" bindtap="onPickFromAlbum">相册</view>
+      <view class="shutter" bindtap="onShutter">
+        <view class="shutter__ring"></view>
+      </view>
+      <view class="action-secondary" bindtap="onFlipCamera">翻转</view>
+    </block>
+
+    <block wx:else>
+      <button class="btn btn--ghost" bindtap="onRetake" style="flex: 1;">重拍</button>
+      <button
+        class="btn btn--primary"
+        bindtap="onConfirm"
+        loading="{{uploading}}"
+        disabled="{{uploading}}"
+        style="flex: 2; margin-left: 16rpx;"
+      >确认上传</button>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,69 @@
+<view class="compare" wx:if="{{before && after}}">
+
+  <!-- 模式切换 -->
+  <view class="mode-bar">
+    <view
+      class="mode-tab {{mode === 'slider' ? 'mode-tab--active' : ''}}"
+      data-mode="slider"
+      bindtap="onModeChange"
+    >滑动对比</view>
+    <view
+      class="mode-tab {{mode === 'side' ? 'mode-tab--active' : ''}}"
+      data-mode="side"
+      bindtap="onModeChange"
+    >并排对比</view>
+  </view>
+
+  <!-- 滑动对比模式 -->
+  <view
+    wx:if="{{mode === 'slider'}}"
+    class="stage"
+    bindtouchstart="onTouchStart"
+    bindtouchmove="onTouchMove"
+  >
+    <!-- 底层：after（最新） -->
+    <image class="layer" src="{{after.url}}" mode="aspectFit" />
+
+    <!-- 上层：before（首张），按 splitX 裁剪 -->
+    <view class="layer layer--clip" style="width: {{splitX}}%;">
+      <image
+        class="layer-img"
+        src="{{before.url}}"
+        mode="aspectFit"
+        style="width: {{stageWidth}}px;"
+      />
+    </view>
+
+    <!-- 分割线 + 手柄 -->
+    <view class="divider" style="left: {{splitX}}%;">
+      <view class="divider__handle"></view>
+    </view>
+
+    <!-- 角标 -->
+    <view class="badge badge--left">A · {{before.poseLabel}} · {{formatDate(before.shotAt)}}</view>
+    <view class="badge badge--right">B · {{after.poseLabel}} · {{formatDate(after.shotAt)}}</view>
+  </view>
+
+  <!-- 并排对比模式 -->
+  <view wx:else class="side">
+    <view class="side__half">
+      <image class="side__img" src="{{before.url}}" mode="aspectFit" />
+      <view class="side__label">A · {{formatDate(before.shotAt)}}</view>
+    </view>
+    <view class="side__half">
+      <image class="side__img" src="{{after.url}}" mode="aspectFit" />
+      <view class="side__label">B · {{formatDate(after.shotAt)}}</view>
+    </view>
+  </view>
+
+  <view class="hint" wx:if="{{mode === 'slider'}}">← 左右拖动分隔线 →</view>
+</view>
+
+<view wx:else class="empty" style="color: #FFFFFF; padding-top: 200rpx;">加载中…</view>
+
+<wxs module="formatDate">
+  module.exports = function(s) {
+    if (!s) return '';
+    return ('' + s).slice(0, 10);
+  }
+</wxs>

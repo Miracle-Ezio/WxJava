@@ -1,0 +1,145 @@
+.upload {
+  height: 100vh;
+  background: #0A0A0A;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 顶部栏 ──────────────────────── */
+.topbar {
+  position: relative;
+  padding: 80rpx 32rpx 24rpx;
+  text-align: center;
+}
+.topbar__close {
+  position: absolute;
+  left: 32rpx;
+  top: 80rpx;
+  width: 64rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #FFFFFF;
+}
+.topbar__title {
+  font-size: 36rpx;
+  color: #FFFFFF;
+  font-weight: 500;
+  letter-spacing: 2rpx;
+}
+.topbar__hint {
+  font-size: 22rpx;
+  color: #B8B8B8;
+  margin-top: 8rpx;
+  letter-spacing: 1rpx;
+}
+
+/* ── 相机舞台 ──────────────────────── */
+.stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+.camera, .preview {
+  width: 100%;
+  height: 100%;
+}
+.preview { background: #000; }
+
+/* 上一张照片：半透明 ghost 叠加，用于对齐五官 */
+.overlay-ghost {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.35;
+  mix-blend-mode: lighten;
+  pointer-events: none;
+}
+
+/* 椭圆人脸轮廓引导 */
+.face-mask {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 480rpx;
+  height: 640rpx;
+  border: 2rpx dashed rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.face-mask--oval-left  { transform: translate(-50%, -50%) rotate(-12deg); }
+.face-mask--oval-right { transform: translate(-50%, -50%) rotate(12deg); }
+
+.stage__tip {
+  position: absolute;
+  bottom: 24rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8rpx 24rpx;
+  font-size: 22rpx;
+  color: #FFFFFF;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 999rpx;
+  letter-spacing: 1rpx;
+}
+
+/* ── 机位 tab ──────────────────────── */
+.pose-tabs {
+  display: flex;
+  justify-content: space-around;
+  padding: 24rpx 32rpx;
+}
+.pose-tab {
+  padding: 12rpx 24rpx;
+  font-size: 26rpx;
+  color: #8A8A8A;
+  border-radius: 999rpx;
+}
+.pose-tab--active {
+  color: #0A0A0A;
+  background: #FFFFFF;
+}
+
+/* ── 操作区 ──────────────────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 32rpx 48rpx calc(48rpx + env(safe-area-inset-bottom));
+  background: #0A0A0A;
+}
+
+.action-secondary {
+  width: 96rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.shutter {
+  width: 144rpx;
+  height: 144rpx;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.shutter__ring {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 4rpx solid #0A0A0A;
+}
+.shutter:active .shutter__ring {
+  background: #C8A96A;
+  border-color: #C8A96A;
+}

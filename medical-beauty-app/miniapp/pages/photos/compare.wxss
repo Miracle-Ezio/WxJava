@@ -1,0 +1,129 @@
+.compare {
+  height: 100vh;
+  background: #0A0A0A;
+  display: flex;
+  flex-direction: column;
+}
+
+.mode-bar {
+  display: flex;
+  justify-content: center;
+  padding: 24rpx 32rpx 0;
+  gap: 16rpx;
+}
+.mode-tab {
+  padding: 12rpx 32rpx;
+  font-size: 24rpx;
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999rpx;
+}
+.mode-tab--active {
+  background: #FFFFFF;
+  color: #0A0A0A;
+}
+
+/* ── 滑动对比 stage ──────────────────────── */
+.stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  margin-top: 24rpx;
+}
+.layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+.layer--clip {
+  overflow: hidden;
+  left: 0;
+  top: 0;
+  height: 100%;
+}
+.layer-img {
+  display: block;
+  height: 100%;
+  /* width 由 JS 设置为 stage 宽度，确保左右半边的图比例一致 */
+}
+
+.divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2rpx;
+  background: rgba(255, 255, 255, 0.95);
+  pointer-events: none;
+  transform: translateX(-1rpx);
+}
+.divider__handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 64rpx;
+  height: 64rpx;
+  background: #FFFFFF;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 4rpx rgba(255, 255, 255, 0.2);
+}
+.divider__handle::before,
+.divider__handle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border: 10rpx solid transparent;
+  transform: translateY(-50%);
+}
+.divider__handle::before { left: 8rpx;  border-right-color: #0A0A0A; }
+.divider__handle::after  { right: 8rpx; border-left-color:  #0A0A0A; }
+
+.badge {
+  position: absolute;
+  top: 32rpx;
+  padding: 8rpx 20rpx;
+  font-size: 22rpx;
+  color: #FFFFFF;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 999rpx;
+  backdrop-filter: blur(8rpx);
+}
+.badge--left  { left: 24rpx; }
+.badge--right { right: 24rpx; }
+
+/* ── 并排对比 ──────────────────────── */
+.side {
+  flex: 1;
+  display: flex;
+  gap: 4rpx;
+  margin-top: 24rpx;
+  padding: 0 16rpx;
+}
+.side__half {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.side__img {
+  width: 100%;
+  flex: 1;
+  background: #000;
+}
+.side__label {
+  padding: 16rpx 0;
+  font-size: 22rpx;
+  color: #FFFFFF;
+}
+
+.hint {
+  text-align: center;
+  padding: 24rpx 0 calc(24rpx + env(safe-area-inset-bottom));
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 2rpx;
+}
