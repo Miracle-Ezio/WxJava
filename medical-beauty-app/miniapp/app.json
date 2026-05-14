@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/photos/index",
+    "pages/appointment/index",
+    "pages/profile/index",
+    "pages/plan/detail",
+    "pages/plan/list",
+    "pages/login/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "STARRY · 思达芮",
+    "backgroundColor": "#FAF9F6",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#8A8A8A",
+    "selectedColor": "#0A0A0A",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/photos/index",
+        "text": "对比"
+      },
+      {
+        "pagePath": "pages/appointment/index",
+        "text": "预约"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

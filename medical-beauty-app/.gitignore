@@ -1,0 +1,33 @@
+### Server (Maven / Java) ###
+server/target/
+server/.mvn/
+*.class
+*.jar
+*.war
+*.log
+hs_err_pid*
+
+### IDE ###
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+### OS ###
+.DS_Store
+Thumbs.db
+
+### Mini-Program ###
+miniapp/node_modules/
+miniapp/.swc/
+miniapp/dist/
+miniapp/miniprogram_npm/
+
+### Env ###
+.env
+.env.local
+*.local

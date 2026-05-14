@@ -1,0 +1,7 @@
+.plan-card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(10, 10, 10, 0.04);
+}

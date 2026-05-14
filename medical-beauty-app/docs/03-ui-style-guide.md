@@ -6,60 +6,75 @@
 
 ---
 
-## 1. 品牌色（占位，需用实际 logo 取色替换）
+## 1. 品牌色（基于真实 STARRY logo）
 
-> 由于运行环境无法直接渲染 .ai 文件，下方为**根据医美高端品牌惯例**的占位配色。
-> 设计师拿到 logo 后用取色器替换 `--brand-primary` 即可，其余衍生色按比例自动协调。
+### 1.1 品牌识别
 
-### 1.1 主色系（建议三选一，等设计师确认后保留一个）
+> **STARRY · 思达芮**
+> "天空中闪耀的繁星 · THE STARS SHINING IN THE SKY"
+> Logo：极简黑白衬线，S 与 R 字母艺术化交叠，下方"STARRY"全大写衬线 + "思达芮"中文宋体
 
-| 方案 | 主色 | 中文别名 | Hex | 适用感觉 |
-| --- | --- | --- | --- | --- |
-| A · 香槟驼 | ![](https://placehold.co/15/B8956A/B8956A) | 香槟驼 | `#B8956A` | 高级、温暖、贵气，适合 35+ 抗衰客群（PPT 客户彭蕾 55 岁） |
-| B · 玫瑰金 | ![](https://placehold.co/15/C9A0A0/C9A0A0) | 玫瑰粉 | `#C9A0A0` | 柔美、女性、轻奢 |
-| C · 雾感墨绿 | ![](https://placehold.co/15/5E7461/5E7461) | 静谧绿 | `#5E7461` | 医疗感、信任感、平衡 |
+品牌调性：**极简、高奢、星空、安静、留白**。视觉策略走 **monochrome + 微弱星空感金色点缀**，避免一切廉价感。
 
-**默认采用方案 A · 香槟驼**（与抗衰客群心智最匹配）。
-
-### 1.2 完整色板（基于方案 A）
+### 1.2 主色板
 
 ```css
-/* 品牌色 */
---brand-primary:        #B8956A;   /* 香槟驼 主色 */
---brand-primary-hover:  #A8845A;
---brand-primary-light:  #E8D9C3;   /* 浅色背景 */
---brand-primary-bg:     #F7F1E8;   /* 极浅 banner 底 */
+/* ─── 品牌主色：纯黑白 ─── */
+--brand-ink:        #0A0A0A;   /* 主色：墨黑（不用 #000，更柔） */
+--brand-ink-soft:   #2A2A2A;   /* 次黑：长文本 */
+--brand-paper:      #FFFFFF;   /* 主背景：纯白 */
+--brand-paper-warm: #FAF9F6;   /* 次背景：暖白纸感 */
 
-/* 中性色（用于文字、边框、背景） */
---neutral-900: #1F1B16;   /* 主标题 */
---neutral-700: #4A413A;   /* 正文 */
---neutral-500: #8A8078;   /* 次要文字 */
---neutral-300: #D6CFC7;   /* 边框、分隔线 */
---neutral-100: #F5F2EE;   /* 浅背景 */
---neutral-50:  #FAFAF8;   /* 页面底 */
---white:       #FFFFFF;
+/* ─── 点缀：星辰金 + 夜空蓝 ─── */
+/*   来自 slogan「天空中闪耀的繁星」                              */
+/*   只在 CTA / 等级徽章 / 重要状态使用，绝不大面积铺          */
+--accent-gold:      #C8A96A;   /* 星辰金 — 等级、徽章、关键 CTA */
+--accent-gold-soft: #E8DCC2;   /* 浅金 — 选中态、tag 底色 */
+--accent-night:     #1B2541;   /* 夜空蓝 — 仅用于黑卡 / 高级别 */
 
-/* 功能色 */
---success: #5B9F7A;
---warning: #E0A458;
---danger:  #C26B6B;
---info:    #6A8FB8;
+/* ─── 中性灰阶 ─── */
+--neutral-900: #0A0A0A;
+--neutral-800: #2A2A2A;
+--neutral-700: #4A4A4A;   /* 正文 */
+--neutral-500: #8A8A8A;   /* 次要文字 */
+--neutral-300: #D8D8D8;   /* 边框 */
+--neutral-200: #ECECEC;   /* 分隔线 */
+--neutral-100: #F5F5F5;   /* 浅背景 */
+--neutral-50:  #FAFAFA;   /* 页面底 */
 
-/* 等级色（搭配 level_config.color） */
---level-normal:  #B0A89F;   /* 普通 */
---level-silver:  #C0C4CB;
---level-gold:    #D4A24C;   /* 金卡 */
---level-black:   #2C2A26;   /* 黑卡 */
---level-diamond: #6FB5C9;
+/* ─── 功能色（低饱和，与品牌调性一致） ─── */
+--success: #5B8A6F;
+--warning: #C89A4A;
+--danger:  #B05656;
+--info:    #5A7088;
+
+/* ─── 等级体系（呼应"星辰"） ─── */
+--level-stardust: #B0B0B0;   /* 星尘 — 普通 */
+--level-silver:   #C8C8C8;   /* 银河 — 银卡 */
+--level-gold:     #C8A96A;   /* 星辰 — 金卡 */
+--level-night:    #1B2541;   /* 夜空 — 黑卡 */
+--level-nova:     #6F8FB5;   /* 新星 — 钻石 */
 ```
 
-### 1.3 渐变（用于卡片头、等级徽章、CTA 按钮）
+### 1.3 渐变（克制使用）
 
 ```css
---gradient-brand:  linear-gradient(135deg, #C9A87D 0%, #B8956A 100%);
---gradient-gold:   linear-gradient(135deg, #E8C97A 0%, #D4A24C 100%);
---gradient-glow:   radial-gradient(circle at 30% 20%, #FFF8EC 0%, #F7F1E8 100%);
+/* CTA 按钮 / 等级徽章 */
+--gradient-ink:    linear-gradient(135deg, #2A2A2A 0%, #0A0A0A 100%);
+--gradient-gold:   linear-gradient(135deg, #D8BC82 0%, #B8995A 100%);
+--gradient-night:  linear-gradient(135deg, #2C3A5F 0%, #1B2541 100%);
+
+/* 卡片背景（仅"下一项提醒"等关键卡用） */
+--gradient-paper:  radial-gradient(circle at 20% 0%, #FFFFFF 0%, #FAF9F6 100%);
+--gradient-starry: linear-gradient(180deg, #FAF9F6 0%, #F0EBE0 100%);
 ```
+
+### 1.4 用色铁律
+
+- **页面主背景永远是白或暖白**，禁止整页深色
+- **黑色是主色，金色只作点缀**（CTA、徽章、价格强调、装饰线），单屏金色面积 ≤ 5%
+- **夜空蓝仅用于黑卡客户的等级标识 / 高端套餐 banner**，不出现在普通客户视图
+- logo 在小程序内：白底页显示黑色版，深色 banner 显示白色版
 
 ---
 
@@ -120,7 +135,7 @@ spacing: 8 / 16 / 24 / 32 / 48 / 64 rpx
 
 ### 4.2 卡片
 - 默认 `background: white; border-radius: 16rpx; box-shadow: --shadow-card;`
-- 重要信息卡（如等级、下一项提醒）用 `--gradient-glow` 渐变底 + 香槟驼描边
+- 重要信息卡（如等级、下一项提醒）用 `--gradient-glow` 渐变底 + 墨黑 / 星辰金描边
 
 ### 4.3 输入框
 - 单行高 88rpx，圆角 12rpx，1rpx 浅边框，聚焦时变 `--brand-primary`
@@ -180,12 +195,12 @@ spacing: 8 / 16 / 24 / 32 / 48 / 64 rpx
 
 ### 5.4 预约
 - 步骤条 1-2-3-4
-- 日历：横向滑动 14 天，香槟驼底标记可约日
+- 日历：横向滑动 14 天，墨黑 / 星辰金底标记可约日
 - 时段：宫格，灰=已满，描边=可选，实心=已选
 - 提交后过渡到"已提交，等待门店确认"页
 
 ### 5.5 我的账户
-- 顶部储值卡（横版，香槟驼渐变 + 金色烫印感数字 + 等级徽章）
+- 顶部储值卡（横版，墨黑 / 星辰金渐变 + 金色烫印感数字 + 等级徽章）
 - 余额 + 累计充值进度条「再充 ¥2,000 升级金卡」
 - 二级入口：消费记录、疗程余量、卡券、电子合同
 
@@ -195,7 +210,7 @@ spacing: 8 / 16 / 24 / 32 / 48 / 64 rpx
 
 - 整体风格：**Element Plus** 默认布局 + 品牌色覆盖
 - 主色覆盖：`--el-color-primary: #B8956A;`
-- 侧栏：白底 + 香槟驼图标 + 选中态浅色背景（不要深色侧栏，太重）
+- 侧栏：白底 + 墨黑 / 星辰金图标 + 选中态浅色背景（不要深色侧栏，太重）
 - 客户 360 页面用三栏布局：左栏客户基础信息常驻、中栏时间轴、右栏快捷操作
 - 关键数据表用浅色斑马纹 `#FAFAF8`，避免黑底感
 - 图表：ECharts，主色统一品牌色，辅色用 `--info / --success / --warning`
@@ -206,8 +221,8 @@ spacing: 8 / 16 / 24 / 32 / 48 / 64 rpx
 
 - **图标库**：iconfont 自建一套（或基于 Tabler Icons / Phosphor 二次描色）
 - **线性图标**：1.5 rpx 描边，圆角端点
-- **插画**：空状态、引导拍照、引导授权订阅消息用统一插画师风格（推荐 Iconscout / Storyset 风格，米色 + 香槟驼配色）
-- **拍照引导**：半透明白色蒙版 + 香槟驼人脸轮廓线
+- **插画**：空状态、引导拍照、引导授权订阅消息用统一插画师风格（推荐 Iconscout / Storyset 风格，米色 + 墨黑 / 星辰金配色）
+- **拍照引导**：半透明白色蒙版 + 墨黑 / 星辰金人脸轮廓线
 
 ---
 

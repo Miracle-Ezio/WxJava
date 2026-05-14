@@ -1,0 +1,69 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: medical-beauty-server
+  datasource:
+    url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:starry_mb}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: 0
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deletedAt
+      logic-delete-value: "NOW()"
+      logic-not-delete-value: "NULL"
+
+# WxJava miniapp 配置（多租户场景下，每个 tenant 在 DB 中维护自己的 appid/secret，
+# 此处仅作为默认 / 演示租户）
+wx:
+  miniapp:
+    configs:
+      - appid: ${WX_MA_APPID:wx_demo_appid}
+        secret: ${WX_MA_SECRET:wx_demo_secret}
+        token: ${WX_MA_TOKEN:}
+        aesKey: ${WX_MA_AESKEY:}
+        msgDataFormat: JSON
+
+# 业务自定义
+starry:
+  jwt:
+    # 至少 256 bit；生产环境从环境变量注入
+    secret: ${JWT_SECRET:dev-only-secret-please-change-in-production-environment-1234567890}
+    expires-hours: 168            # 7 天
+    refresh-expires-days: 30
+  cos:
+    # 阿里 OSS / 腾讯 COS；先占位
+    endpoint: ${COS_ENDPOINT:}
+    bucket: ${COS_BUCKET:}
+    region: ${COS_REGION:}
+    access-key: ${COS_AK:}
+    secret-key: ${COS_SK:}
+    signed-url-ttl-seconds: 300
+  demo:
+    # 一期单租户演示：兜底租户 / 门店 id
+    default-tenant-id: 1
+    default-store-id: 1
+
+logging:
+  level:
+    root: INFO
+    com.starry.mb: DEBUG

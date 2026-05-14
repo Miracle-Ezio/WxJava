@@ -1,0 +1,71 @@
+<view class="page">
+
+  <view class="home__header">
+    <view>
+      <view class="text-secondary">早安</view>
+      <view class="title-xl">{{nickname || '亲爱的客户'}}</view>
+    </view>
+    <view class="level-badge level-badge--{{levelCode}}">{{levelLabel}}</view>
+  </view>
+
+  <!-- 下一项提醒（占位，二期接 reminder API） -->
+  <view class="card card--accent" wx:if="{{nextReminder}}">
+    <view class="reminder__label text-accent">下一项提醒</view>
+    <view class="reminder__title">{{nextReminder.title}}</view>
+    <view class="reminder__desc text-secondary">{{nextReminder.desc}}</view>
+    <view class="reminder__action">
+      <button class="btn btn--gold" size="mini" bindtap="onBook">立即预约</button>
+    </view>
+  </view>
+
+  <!-- 我的规划方案 -->
+  <view class="section-title">
+    <view class="title-lg">我的规划</view>
+    <view class="text-secondary" bindtap="goPlanList" wx:if="{{plans.length}}">全部 ›</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="empty">加载中…</view>
+
+  <view wx:elif="{{!plans.length}}" class="card">
+    <view class="empty">
+      <view>暂无规划方案</view>
+      <view class="text-muted" style="margin-top: 16rpx; font-size: 22rpx;">
+        请联系您的顾问为您定制专属抗衰规划
+      </view>
+    </view>
+  </view>
+
+  <block wx:else>
+    <view
+      class="plan-card"
+      wx:for="{{plans}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="goPlanDetail"
+    >
+      <view class="plan-card__head">
+        <view class="title-md">{{item.title}}</view>
+        <view class="tag tag--gold" wx:if="{{item.status === 4}}">执行中</view>
+        <view class="tag tag--neutral" wx:elif="{{item.status === 2}}">已推送</view>
+        <view class="tag tag--success" wx:elif="{{item.status === 5}}">已完成</view>
+      </view>
+      <view class="plan-card__sub text-secondary">{{item.subtitle}}</view>
+      <view class="plan-card__progress">
+        <view class="progress__bar">
+          <view class="progress__fill" style="width: {{item.doneItems * 100 / (item.totalItems || 1)}}%;"></view>
+        </view>
+        <view class="text-secondary" style="font-size: 22rpx;">
+          {{item.doneItems}}/{{item.totalItems}} 次
+        </view>
+      </view>
+      <view class="plan-card__foot">
+        <view class="text-secondary" style="font-size: 22rpx;">
+          有效期 {{item.validFrom}} ~ {{item.validTo}}
+        </view>
+        <view class="text-accent" style="font-size: 26rpx; font-weight: 500;">
+          ¥{{item.discountPrice || item.totalPrice}}
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

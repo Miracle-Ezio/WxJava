@@ -1,0 +1,145 @@
+/**
+ * STARRY · 思达芮 全局样式
+ * 设计语言：极简黑白 + 星辰金点缀
+ */
+
+page {
+  --brand-ink: #0A0A0A;
+  --brand-ink-soft: #2A2A2A;
+  --brand-paper: #FFFFFF;
+  --brand-paper-warm: #FAF9F6;
+  --accent-gold: #C8A96A;
+  --accent-gold-soft: #E8DCC2;
+  --accent-night: #1B2541;
+  --neutral-700: #4A4A4A;
+  --neutral-500: #8A8A8A;
+  --neutral-300: #D8D8D8;
+  --neutral-200: #ECECEC;
+  --neutral-100: #F5F5F5;
+  --neutral-50: #FAFAFA;
+
+  background-color: #FAF9F6;
+  color: #0A0A0A;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
+               "Helvetica Neue", Helvetica, "Hiragino Sans GB",
+               "Microsoft YaHei", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+view, text {
+  box-sizing: border-box;
+}
+
+/* ── 通用容器 ──────────────────────────────────────── */
+.page {
+  min-height: 100vh;
+  padding: 32rpx 32rpx 64rpx;
+}
+
+.card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(10, 10, 10, 0.04);
+}
+
+.card--accent {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF9F6 100%);
+  border: 1rpx solid var(--accent-gold-soft);
+}
+
+/* ── 排版 ──────────────────────────────────────── */
+.title-xl {
+  font-size: 48rpx;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 2rpx;
+}
+
+.title-lg { font-size: 36rpx; font-weight: 600; line-height: 1.4; }
+.title-md { font-size: 32rpx; font-weight: 500; line-height: 1.5; }
+.title-sm { font-size: 28rpx; font-weight: 500; }
+
+.text-secondary { color: var(--neutral-500); }
+.text-muted     { color: #B8B8B8; }
+.text-accent    { color: var(--accent-gold); }
+
+.divider {
+  height: 1rpx;
+  background: var(--neutral-200);
+  margin: 24rpx 0;
+}
+
+/* ── 按钮 ──────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  padding: 0 48rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border-radius: 44rpx;
+  border: none;
+  transition: opacity 0.15s;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, #2A2A2A 0%, #0A0A0A 100%);
+  color: #FFFFFF;
+}
+
+.btn--gold {
+  background: linear-gradient(135deg, #D8BC82 0%, #B8995A 100%);
+  color: #FFFFFF;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--brand-ink);
+  border: 1rpx solid var(--neutral-300);
+}
+
+.btn:active { opacity: 0.85; }
+
+/* ── 状态徽章 ──────────────────────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 16rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.tag--gold   { background: var(--accent-gold-soft); color: #8B6A3F; }
+.tag--ink    { background: #1F1F1F;                 color: #FFFFFF; }
+.tag--neutral{ background: var(--neutral-100);      color: var(--neutral-700); }
+.tag--success{ background: #E8F0EB;                 color: #5B8A6F; }
+.tag--warning{ background: #FAF1E0;                 color: #C89A4A; }
+
+/* ── 等级徽章（呼应"星辰"） ───────────────────────── */
+.level-badge {
+  display: inline-flex;
+  align-items: center;
+  height: 44rpx;
+  padding: 0 18rpx;
+  border-radius: 22rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+  letter-spacing: 1rpx;
+}
+.level-badge--STARDUST { background: #E0E0E0; color: #5A5A5A; }
+.level-badge--SILVER   { background: #D0D5DA; color: #3D4148; }
+.level-badge--GOLD     { background: linear-gradient(135deg, #D8BC82, #B8995A); color: #FFFFFF; }
+.level-badge--NIGHT    { background: linear-gradient(135deg, #2C3A5F, #1B2541); color: #FFFFFF; }
+.level-badge--NOVA     { background: linear-gradient(135deg, #8DA9C5, #6F8FB5); color: #FFFFFF; }
+
+/* ── 空状态 / 加载 ──────────────────────────────────────── */
+.empty {
+  padding: 96rpx 32rpx;
+  text-align: center;
+  color: var(--neutral-500);
+}

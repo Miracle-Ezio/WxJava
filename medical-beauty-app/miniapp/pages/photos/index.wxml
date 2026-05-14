@@ -1,0 +1,12 @@
+<view class="page">
+  <view class="title-xl">照片对比</view>
+  <view class="text-secondary" style="margin-top: 16rpx;">见证每一次蜕变</view>
+  <view class="card" style="margin-top: 48rpx;">
+    <view class="empty">
+      <view>即将上线</view>
+      <view class="text-muted" style="margin-top: 16rpx; font-size: 22rpx;">
+        4 机位拍照引导 · 时间轴对比 · 左右滑动对比
+      </view>
+    </view>
+  </view>
+</view>

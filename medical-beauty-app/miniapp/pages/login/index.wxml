@@ -1,0 +1,31 @@
+<view class="login">
+  <view class="login__brand">
+    <view class="login__monogram">SR</view>
+    <view class="login__title">STARRY</view>
+    <view class="login__zh">思达芮</view>
+    <view class="login__tagline">天空中闪耀的繁星</view>
+    <view class="login__tagline-en">THE STARS SHINING IN THE SKY</view>
+  </view>
+
+  <view class="login__welcome">
+    <view class="title-md">欢迎使用专属档案</view>
+    <view class="text-secondary" style="margin-top: 16rpx;">
+      记录您的每一次蜕变，见证时间的礼物
+    </view>
+  </view>
+
+  <view class="login__actions">
+    <button
+      class="btn btn--primary login__btn"
+      open-type="getUserInfo"
+      bindgetuserinfo="onGetUserInfo"
+      wx:if="{{!loading}}"
+    >微信一键登录</button>
+    <button class="btn btn--primary login__btn" disabled wx:else>
+      登录中…
+    </button>
+    <view class="login__protocol" bindtap="onProtocol">
+      登录即视为您同意《用户协议》《隐私政策》
+    </view>
+  </view>
+</view>

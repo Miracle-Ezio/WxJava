@@ -1,0 +1,34 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "STARRY-medical-beauty",
+  "description": "STARRY 思达芮 · 医美客户长期管理小程序",
+  "appid": "wx_demo_appid_replace_me",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": false,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "useCompilerModule": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "useStaticServer": true,
+    "showES6CompileOption": false,
+    "checkInvalidKey": true,
+    "uglifyFileName": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "compileType": "miniprogram",
+  "libVersion": "3.4.0"
+}

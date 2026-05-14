@@ -1,0 +1,109 @@
+<view class="plan-page" wx:if="{{detail}}">
+
+  <!-- 封面区 -->
+  <view class="plan-cover">
+    <view class="plan-cover__mono">SR</view>
+    <view class="title-xl plan-cover__title">{{detail.plan.title}}</view>
+    <view class="text-secondary plan-cover__sub">{{detail.plan.subtitle}}</view>
+    <view class="plan-cover__meta">
+      <view class="meta-item">
+        <view class="meta-item__label">咨询顾问</view>
+        <view class="meta-item__value">{{detail.consultantName || '—'}}</view>
+      </view>
+      <view class="meta-item">
+        <view class="meta-item__label">有效期</view>
+        <view class="meta-item__value">{{detail.plan.validFrom}} ~ {{detail.plan.validTo}}</view>
+      </view>
+      <view class="meta-item">
+        <view class="meta-item__label">方案价</view>
+        <view class="meta-item__value text-accent">¥{{detail.plan.discountPrice || detail.plan.totalPrice}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 章节锚点导航 -->
+  <scroll-view class="anchor-bar" scroll-x scroll-with-animation>
+    <view
+      class="anchor {{currentAnchor === item.id ? 'anchor--active' : ''}}"
+      wx:for="{{detail.sections}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onAnchorTap"
+    >{{item.title}}</view>
+  </scroll-view>
+
+  <!-- 章节内容 -->
+  <view class="sections">
+
+    <!-- 分析章节（首先单独渲染 plan.analysisText） -->
+    <view class="section" wx:if="{{detail.plan.analysisText}}">
+      <view class="section__title">面部状况分析</view>
+      <view class="section__content">{{detail.plan.analysisText}}</view>
+    </view>
+
+    <view
+      class="section"
+      wx:for="{{detail.sections}}"
+      wx:for-item="sec"
+      wx:key="id"
+      id="anchor-{{sec.id}}"
+    >
+      <view class="section__type-tag">
+        <text wx:if="{{sec.type === 'analysis'}}">分析</text>
+        <text wx:elif="{{sec.type === 'region_plan'}}">分区规划</text>
+        <text wx:elif="{{sec.type === 'project_list'}}">项目建议</text>
+        <text wx:elif="{{sec.type === 'material'}}">材料推荐</text>
+        <text wx:elif="{{sec.type === 'package'}}">套餐报价</text>
+        <text wx:elif="{{sec.type === 'case'}}">案例参考</text>
+        <text wx:else>章节</text>
+      </view>
+      <view class="section__title">{{sec.title}}</view>
+      <view class="section__content" wx:if="{{sec.content}}">{{sec.content}}</view>
+
+      <!-- package 章节：渲染 plan_items 表格 -->
+      <view class="items" wx:if="{{sec.type === 'package' && detail.items.length}}">
+        <view
+          class="item-card"
+          wx:for="{{detail.items}}"
+          wx:for-item="it"
+          wx:key="id"
+        >
+          <view class="item-card__head">
+            <view class="item-card__name">{{it.projectName}}</view>
+            <view class="tag tag--neutral" wx:if="{{it.status === 1}}">未开始</view>
+            <view class="tag tag--gold"    wx:elif="{{it.status === 2}}">进行中</view>
+            <view class="tag tag--success" wx:elif="{{it.status === 3}}">已完成</view>
+            <view class="tag tag--neutral" wx:elif="{{it.status === 4}}">已取消</view>
+          </view>
+          <view class="item-card__body">
+            <view class="item-row">
+              <text class="text-muted">计划次数</text>
+              <text>{{it.doneCount}} / {{it.plannedCount}} 次</text>
+            </view>
+            <view class="item-row">
+              <text class="text-muted">单价</text>
+              <text>¥{{it.unitPrice}}</text>
+            </view>
+            <view class="item-row" wx:if="{{it.activityPrice && it.activityPrice !== it.unitPrice}}">
+              <text class="text-muted">活动价</text>
+              <text class="text-accent">¥{{it.activityPrice}}</text>
+            </view>
+            <view class="item-row item-row--total">
+              <text class="text-muted">小计</text>
+              <text class="text-accent" style="font-weight: 600; font-size: 32rpx;">¥{{it.totalPrice}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部 CTA -->
+  <view class="plan-foot">
+    <button class="btn btn--ghost" bindtap="onExportPdf">导出 PDF</button>
+    <button class="btn btn--primary" bindtap="onContactConsultant">联系顾问</button>
+  </view>
+
+</view>
+
+<view wx:else class="empty">加载中…</view>

@@ -1,0 +1,12 @@
+<view class="page">
+  <view class="title-xl">预约</view>
+  <view class="text-secondary" style="margin-top: 16rpx;">为您安排时间</view>
+  <view class="card" style="margin-top: 48rpx;">
+    <view class="empty">
+      <view>即将上线</view>
+      <view class="text-muted" style="margin-top: 16rpx; font-size: 22rpx;">
+        选择项目 · 选择门店 · 选择时段 · 一键提交
+      </view>
+    </view>
+  </view>
+</view>
