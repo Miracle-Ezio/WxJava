@@ -1,0 +1,44 @@
+/* STARRY 品牌色覆盖 Element Plus 主色 */
+:root {
+  --el-color-primary: #0A0A0A;
+  --el-color-primary-light-3: #2A2A2A;
+  --el-color-primary-light-5: #4A4A4A;
+  --el-color-primary-light-7: #8A8A8A;
+  --el-color-primary-light-9: #ECECEC;
+  --el-color-primary-dark-2: #000000;
+
+  --starry-gold: #C8A96A;
+  --starry-gold-soft: #E8DCC2;
+  --starry-paper: #FAF9F6;
+}
+
+.el-button--primary {
+  background: linear-gradient(135deg, #2A2A2A 0%, #0A0A0A 100%) !important;
+  border-color: #0A0A0A !important;
+}
+.el-button--primary:hover { opacity: 0.9; }
+
+/* 金色强调按钮 */
+.el-button.btn-gold {
+  background: linear-gradient(135deg, #D8BC82 0%, #B8995A 100%) !important;
+  border-color: #B8995A !important;
+  color: #FFFFFF !important;
+}
+
+/* 极简卡片阴影 */
+.el-card { box-shadow: 0 4px 16px rgba(10, 10, 10, 0.04) !important; }
+
+/* 表格头部 */
+.el-table th { background: var(--starry-paper) !important; }
+
+/* 全局排版 */
+.text-secondary { color: #8A8A8A; }
+.text-muted { color: #B8B8B8; }
+.text-gold { color: var(--starry-gold); }
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 24px 0 16px;
+  letter-spacing: 1px;
+}
