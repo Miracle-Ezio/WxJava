@@ -55,7 +55,7 @@ async function onSubmit() {
   try {
     await auth.login(form);
     ElMessage.success('欢迎回来');
-    const redirect = (route.query.redirect as string) || '/customers';
+    const redirect = (route.query.redirect as string) || '/dashboard';
     router.push(redirect);
   } catch (e) {
     // ElMessage.error 已由 client 拦截

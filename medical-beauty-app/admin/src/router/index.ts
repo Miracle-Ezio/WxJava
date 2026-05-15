@@ -7,12 +7,14 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     component: () => import('@/layouts/AdminLayout.vue'),
     children: [
-      { path: '',                  redirect: '/customers' },
+      { path: '',                  redirect: '/dashboard' },
       { path: 'dashboard',         name: 'Dashboard',     component: () => import('@/pages/Dashboard.vue') },
       { path: 'customers',         name: 'Customers',     component: () => import('@/pages/Customers.vue') },
       { path: 'customers/:id',     name: 'CustomerDetail', component: () => import('@/pages/CustomerDetail.vue') },
       { path: 'plans/new',         name: 'PlanNew',       component: () => import('@/pages/PlanEditor.vue') },
       { path: 'plans/:id',         name: 'PlanEdit',      component: () => import('@/pages/PlanEditor.vue') },
+      { path: 'schedule',          name: 'Schedule',      component: () => import('@/pages/Schedule.vue') },
+      { path: 'audit-logs',        name: 'AuditLogs',     component: () => import('@/pages/AuditLogs.vue') },
     ],
   },
 ];
@@ -25,7 +27,7 @@ router.beforeEach((to) => {
     return { name: 'Login', query: { redirect: to.fullPath } };
   }
   if (to.name === 'Login' && auth.isLoggedIn) {
-    return { name: 'Customers' };
+    return { name: 'Dashboard' };
   }
 });
 

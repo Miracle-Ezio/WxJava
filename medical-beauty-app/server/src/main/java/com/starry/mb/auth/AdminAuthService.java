@@ -3,6 +3,7 @@ package com.starry.mb.auth;
 import cn.hutool.crypto.digest.BCrypt;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.starry.mb.audit.AuditLogger;
 import com.starry.mb.auth.dto.AdminLoginRequest;
 import com.starry.mb.auth.dto.AdminLoginResponse;
 import com.starry.mb.common.context.PrincipalContext;
@@ -18,13 +19,16 @@ public class AdminAuthService {
 
     private final EmployeeMapper employeeMapper;
     private final JwtUtil jwtUtil;
+    private final AuditLogger audit;
     private final Long defaultTenantId;
 
     public AdminAuthService(EmployeeMapper employeeMapper,
                             JwtUtil jwtUtil,
+                            AuditLogger audit,
                             @Value("${starry.demo.default-tenant-id}") Long defaultTenantId) {
         this.employeeMapper = employeeMapper;
         this.jwtUtil = jwtUtil;
+        this.audit = audit;
         this.defaultTenantId = defaultTenantId;
     }
 
@@ -47,6 +51,14 @@ public class AdminAuthService {
                 e.getTenantId(),
                 e.getStoreId());
         String token = jwtUtil.issue(principal);
+
+        // 登录时还没设上下文，先手动设一下让 audit 拿到信息
+        PrincipalContext.set(principal);
+        try {
+            audit.record("auth", "admin_login", e.getId(), "登录后台：" + e.getName());
+        } finally {
+            // 拦截器后续会再次写入 / 清理，这里不主动清以免影响响应链
+        }
 
         return new AdminLoginResponse(
                 token, e.getId(), e.getName(), e.getAvatarUrl(),

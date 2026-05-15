@@ -15,13 +15,21 @@
         text-color="#4A4A4A"
         active-text-color="#0A0A0A"
       >
+        <el-menu-item index="/dashboard">
+          <el-icon><DataAnalysis /></el-icon>
+          <span>数据看板</span>
+        </el-menu-item>
         <el-menu-item index="/customers">
           <el-icon><User /></el-icon>
           <span>客户管理</span>
         </el-menu-item>
-        <el-menu-item index="/dashboard">
-          <el-icon><DataAnalysis /></el-icon>
-          <span>数据看板</span>
+        <el-menu-item index="/schedule">
+          <el-icon><Calendar /></el-icon>
+          <span>排期日历</span>
+        </el-menu-item>
+        <el-menu-item index="/audit-logs">
+          <el-icon><Document /></el-icon>
+          <span>操作日志</span>
         </el-menu-item>
       </el-menu>
     </el-aside>
@@ -76,6 +84,8 @@ const pageTitle = computed(() => {
     PlanNew: '新建规划方案',
     PlanEdit: '编辑规划方案',
     Dashboard: '数据看板',
+    Schedule: '排期日历',
+    AuditLogs: '操作日志',
   };
   return t[String(route.name)] || '';
 });

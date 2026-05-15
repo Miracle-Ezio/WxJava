@@ -9,6 +9,7 @@ import com.starry.mb.appointment.dto.AppointmentVO;
 import com.starry.mb.appointment.dto.AvailabilityVO;
 import com.starry.mb.appointment.dto.BookRequest;
 import com.starry.mb.appointment.mapper.AppointmentMapper;
+import com.starry.mb.audit.AuditLogger;
 import com.starry.mb.common.context.PrincipalContext;
 import com.starry.mb.common.exception.BizException;
 import com.starry.mb.employee.domain.Employee;
@@ -45,15 +46,18 @@ public class AppointmentService {
     private final StoreMapper storeMapper;
     private final ProjectMapper projectMapper;
     private final EmployeeMapper employeeMapper;
+    private final AuditLogger audit;
 
     public AppointmentService(AppointmentMapper appointmentMapper,
                               StoreMapper storeMapper,
                               ProjectMapper projectMapper,
-                              EmployeeMapper employeeMapper) {
+                              EmployeeMapper employeeMapper,
+                              AuditLogger audit) {
         this.appointmentMapper = appointmentMapper;
         this.storeMapper = storeMapper;
         this.projectMapper = projectMapper;
         this.employeeMapper = employeeMapper;
+        this.audit = audit;
     }
 
     // ─────────────────────────────────────────────────────────
@@ -179,6 +183,8 @@ public class AppointmentService {
         a.setCustomerNote(req.getCustomerNote());
         appointmentMapper.insert(a);
 
+        audit.record("appointment", "book", a.getId(),
+                "预约：" + project.getName() + " · " + startAt);
         return toVO(a);
     }
 
@@ -237,6 +243,9 @@ public class AppointmentService {
         a.setCancelledAt(LocalDateTime.now());
         a.setCancelReason(reason);
         appointmentMapper.updateById(a);
+
+        audit.record("appointment", "cancel", id,
+                "客户取消预约：" + a.getProjectName());
     }
 
     // ─────────────────────────────────────────────────────────

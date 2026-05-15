@@ -1,6 +1,7 @@
 package com.starry.mb.plan;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.starry.mb.audit.AuditLogger;
 import com.starry.mb.common.context.PrincipalContext;
 import com.starry.mb.common.exception.BizException;
 import com.starry.mb.customer.domain.Customer;
@@ -29,17 +30,20 @@ public class AdminPlanService {
     private final PlanItemMapper itemMapper;
     private final CustomerMapper customerMapper;
     private final ProjectMapper projectMapper;
+    private final AuditLogger audit;
 
     public AdminPlanService(PlanMapper planMapper,
                             PlanSectionMapper sectionMapper,
                             PlanItemMapper itemMapper,
                             CustomerMapper customerMapper,
-                            ProjectMapper projectMapper) {
+                            ProjectMapper projectMapper,
+                            AuditLogger audit) {
         this.planMapper = planMapper;
         this.sectionMapper = sectionMapper;
         this.itemMapper = itemMapper;
         this.customerMapper = customerMapper;
         this.projectMapper = projectMapper;
+        this.audit = audit;
     }
 
     /** 列出某客户全部方案（含草稿，员工可见）。 */
@@ -82,6 +86,8 @@ public class AdminPlanService {
         planMapper.insert(p);
 
         replaceSectionsAndItems(p.getId(), tid, req);
+        audit.record("plan", "create", p.getId(),
+                "新建规划方案：" + p.getTitle() + " · 客户 #" + p.getCustomerId());
         return p;
     }
 
@@ -95,6 +101,7 @@ public class AdminPlanService {
         applyPlanFields(p, req, null);
         planMapper.updateById(p);
         replaceSectionsAndItems(id, tid, req);
+        audit.record("plan", "update", id, "更新规划方案：" + p.getTitle());
         return p;
     }
 
@@ -112,6 +119,7 @@ public class AdminPlanService {
         p.setStatus(2);
         p.setPushedAt(LocalDateTime.now());
         planMapper.updateById(p);
+        audit.record("plan", "push", id, "推送规划方案给客户：" + p.getTitle());
         // TODO: 发订阅消息通知客户
         return p;
     }
@@ -124,6 +132,7 @@ public class AdminPlanService {
             throw new BizException(40400, "规划方案不存在");
         }
         planMapper.deleteById(id);
+        audit.record("plan", "delete", id, "删除规划方案：" + p.getTitle());
     }
 
     // ─────────────────────────────────────────────────────────

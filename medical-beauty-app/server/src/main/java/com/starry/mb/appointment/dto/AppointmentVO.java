@@ -22,6 +22,8 @@ public class AppointmentVO {
     private String customerNote;
     private String cancelReason;
     private String consultantName;
+    /** 客户姓名快照（admin 端展示用） */
+    private String customerName;
     /** 客户当前是否可自行取消 */
     private Boolean canCancel;
 }

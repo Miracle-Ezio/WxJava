@@ -1,6 +1,9 @@
 package com.starry.mb.common.config;
 
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.starry.mb.common.context.PrincipalContext;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +17,13 @@ import java.time.LocalDateTime;
  */
 @Configuration
 public class MybatisPlusConfig {
+
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor i = new MybatisPlusInterceptor();
+        i.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return i;
+    }
 
     @Bean
     public MetaObjectHandler metaObjectHandler() {
