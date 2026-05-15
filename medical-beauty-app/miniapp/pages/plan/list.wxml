@@ -1,19 +1,20 @@
 <view class="page">
   <view wx:if="{{loading}}" class="empty">加载中…</view>
   <view wx:elif="{{!plans.length}}" class="empty">暂无规划方案</view>
-  <view
-    wx:else
-    class="plan-card"
-    wx:for="{{plans}}"
-    wx:key="id"
-    data-id="{{item.id}}"
-    bindtap="goDetail"
-  >
-    <view class="title-md">{{item.title}}</view>
-    <view class="text-secondary" style="font-size: 24rpx; margin-top: 12rpx;">{{item.subtitle}}</view>
-    <view style="display:flex;justify-content:space-between;margin-top:24rpx;">
-      <text class="text-muted" style="font-size: 22rpx;">{{item.validFrom}} ~ {{item.validTo}}</text>
-      <text class="text-accent" style="font-weight: 500;">¥{{item.discountPrice || item.totalPrice}}</text>
+  <block wx:else>
+    <view
+      class="plan-card"
+      wx:for="{{plans}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="goDetail"
+    >
+      <view class="title-md">{{item.title}}</view>
+      <view class="text-secondary" style="font-size: 24rpx; margin-top: 12rpx;">{{item.subtitle}}</view>
+      <view style="display:flex;justify-content:space-between;margin-top:24rpx;">
+        <text class="text-muted" style="font-size: 22rpx;">{{item.validFrom}} ~ {{item.validTo}}</text>
+        <text class="text-accent" style="font-weight: 500;">¥{{item.discountPrice || item.totalPrice}}</text>
+      </view>
     </view>
-  </view>
+  </block>
 </view>
