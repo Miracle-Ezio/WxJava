@@ -1,13 +1,23 @@
 const auth = require('../../utils/auth');
+const app = getApp();
 
 Page({
-  data: { loading: false },
+  data: {
+    loading: false,
+    mockMode: false,
+  },
+
+  onLoad() {
+    this.setData({ mockMode: !!app.globalData.mockMode });
+  },
 
   onGetUserInfo(e) {
-    // 注：自 2022 起 getUserInfo 仅返回匿名信息；
-    // 真实昵称 / 头像应在登录后引导用户通过 chooseAvatar / nickName input 完善
     const profile = (e.detail && e.detail.userInfo) || {};
     this.doLogin(profile);
+  },
+
+  onMockLogin() {
+    this.doLogin({ nickName: '彭蕾', avatarUrl: '' });
   },
 
   doLogin(profile) {
@@ -20,9 +30,7 @@ Page({
         });
         wx.switchTab({ url: '/pages/home/index' });
       })
-      .catch(err => {
-        console.error(err);
-      })
+      .catch(err => { console.error(err); })
       .finally(() => this.setData({ loading: false }));
   },
 

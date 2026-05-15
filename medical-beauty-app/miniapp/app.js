@@ -1,8 +1,16 @@
 // app.js
 App({
   globalData: {
-    /** 后端 base URL，发布时改为生产域名 */
+    /**
+     * 演示开关：true 时所有 API 调用由 utils/mock 拦截返回本地假数据，
+     * 不需要起后端 / 配 AppID 也能跑通全部页面。
+     * 上线前改 false。
+     */
+    mockMode: true,
+
+    /** 后端 base URL（mockMode=false 时生效） */
     apiBase: 'https://api.starry-mb.example.com',
+
     /** 登录态 */
     token: '',
     customerId: null,

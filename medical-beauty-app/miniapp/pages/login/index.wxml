@@ -15,15 +15,24 @@
   </view>
 
   <view class="login__actions">
+    <!-- mock 模式直接 tap；正式模式走 getUserInfo 授权 -->
     <button
+      wx:if="{{mockMode && !loading}}"
+      class="btn btn--primary login__btn"
+      bindtap="onMockLogin"
+    >微信一键登录（演示）</button>
+
+    <button
+      wx:elif="{{!loading}}"
       class="btn btn--primary login__btn"
       open-type="getUserInfo"
       bindgetuserinfo="onGetUserInfo"
-      wx:if="{{!loading}}"
     >微信一键登录</button>
+
     <button class="btn btn--primary login__btn" disabled wx:else>
       登录中…
     </button>
+
     <view class="login__protocol" bindtap="onProtocol">
       登录即视为您同意《用户协议》《隐私政策》
     </view>

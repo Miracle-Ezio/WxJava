@@ -3,10 +3,16 @@
  *   - 自动带 Authorization: Bearer <token>
  *   - 统一返回 ApiResponse 解包：code === 0 返回 data，否则 reject(err)
  *   - 401 自动跳登录页
+ *   - mockMode=true 时由 utils/mock 拦截，直接返回演示数据
  */
 const app = getApp();
+const mock = require('./mock');
 
 function request(method, path, data, opts = {}) {
+  if (app.globalData.mockMode) {
+    const mocked = mock.match(method, path, data);
+    if (mocked) return mocked;
+  }
   return new Promise((resolve, reject) => {
     const header = {
       'Content-Type': 'application/json',
@@ -51,11 +57,12 @@ function request(method, path, data, opts = {}) {
 
 /**
  * 上传文件（multipart/form-data），用于照片上传。
- * @param path        e.g. '/api/photos'
- * @param filePath    wx 本地临时文件路径
- * @param formData    其它表单字段，会一并 POST
  */
 function upload(path, filePath, formData = {}) {
+  if (app.globalData.mockMode) {
+    const mocked = mock.match('POST', path, formData);
+    if (mocked) return mocked;
+  }
   return new Promise((resolve, reject) => {
     const header = {};
     if (app.globalData.token) {
