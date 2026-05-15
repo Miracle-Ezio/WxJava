@@ -14,6 +14,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'plans/new',         name: 'PlanNew',       component: () => import('@/pages/PlanEditor.vue') },
       { path: 'plans/:id',         name: 'PlanEdit',      component: () => import('@/pages/PlanEditor.vue') },
       { path: 'schedule',          name: 'Schedule',      component: () => import('@/pages/Schedule.vue') },
+      { path: 'appointments',      name: 'Appointments',  component: () => import('@/pages/Appointments.vue') },
       { path: 'audit-logs',        name: 'AuditLogs',     component: () => import('@/pages/AuditLogs.vue') },
     ],
   },

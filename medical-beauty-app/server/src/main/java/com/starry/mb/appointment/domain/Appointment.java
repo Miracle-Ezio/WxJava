@@ -38,4 +38,6 @@ public class Appointment extends BaseEntity {
     private LocalDateTime checkedInAt;
     private LocalDateTime completedAt;
     private LocalDateTime cancelledAt;
+    private LocalDateTime reminded24hAt;
+    private LocalDateTime reminded2hAt;
 }

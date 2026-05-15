@@ -27,6 +27,10 @@
           <el-icon><Calendar /></el-icon>
           <span>排期日历</span>
         </el-menu-item>
+        <el-menu-item index="/appointments">
+          <el-icon><Tickets /></el-icon>
+          <span>预约管理</span>
+        </el-menu-item>
         <el-menu-item index="/audit-logs">
           <el-icon><Document /></el-icon>
           <span>操作日志</span>
@@ -85,6 +89,7 @@ const pageTitle = computed(() => {
     PlanEdit: '编辑规划方案',
     Dashboard: '数据看板',
     Schedule: '排期日历',
+    Appointments: '预约管理',
     AuditLogs: '操作日志',
   };
   return t[String(route.name)] || '';

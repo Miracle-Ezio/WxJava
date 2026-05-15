@@ -1,4 +1,5 @@
 const request = require('../../utils/request');
+const subscribe = require('../../utils/subscribe');
 const { fmtDateTime, nextDays } = require('../../utils/datetime');
 
 const DEFAULT_STORE_ID = 1; // 一期单门店；多店时从客户主门店 / 选择器拿
@@ -111,18 +112,21 @@ Page({
     if (!selectedProject || !selectedDate || !selectedTime) return;
 
     this.setData({ submitting: true });
-    request.post('/api/appointments', {
-      projectId: selectedProject.id,
-      storeId: DEFAULT_STORE_ID,
-      startAt: fmtDateTime(selectedDate, selectedTime),
-      customerNote,
-    })
-      .then(appt => {
-        wx.showToast({ title: '已提交，等待门店确认', icon: 'success' });
-        setTimeout(() => {
-          wx.redirectTo({ url: '/pages/appointment/detail?id=' + appt.id });
-        }, 800);
+    // 提交前先引导订阅消息授权（微信要求在 tap 同一帧内调用）
+    subscribe.requestForAppointment().finally(() => {
+      request.post('/api/appointments', {
+        projectId: selectedProject.id,
+        storeId: DEFAULT_STORE_ID,
+        startAt: fmtDateTime(selectedDate, selectedTime),
+        customerNote,
       })
-      .catch(() => this.setData({ submitting: false }));
+        .then(appt => {
+          wx.showToast({ title: '已提交，等待门店确认', icon: 'success' });
+          setTimeout(() => {
+            wx.redirectTo({ url: '/pages/appointment/detail?id=' + appt.id });
+          }, 800);
+        })
+        .catch(() => this.setData({ submitting: false }));
+    });
   },
 });

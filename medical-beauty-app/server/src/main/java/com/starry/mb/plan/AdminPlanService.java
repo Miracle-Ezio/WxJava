@@ -31,19 +31,22 @@ public class AdminPlanService {
     private final CustomerMapper customerMapper;
     private final ProjectMapper projectMapper;
     private final AuditLogger audit;
+    private final com.starry.mb.notify.WxSubscribeService wxSubscribe;
 
     public AdminPlanService(PlanMapper planMapper,
                             PlanSectionMapper sectionMapper,
                             PlanItemMapper itemMapper,
                             CustomerMapper customerMapper,
                             ProjectMapper projectMapper,
-                            AuditLogger audit) {
+                            AuditLogger audit,
+                            com.starry.mb.notify.WxSubscribeService wxSubscribe) {
         this.planMapper = planMapper;
         this.sectionMapper = sectionMapper;
         this.itemMapper = itemMapper;
         this.customerMapper = customerMapper;
         this.projectMapper = projectMapper;
         this.audit = audit;
+        this.wxSubscribe = wxSubscribe;
     }
 
     /** 列出某客户全部方案（含草稿，员工可见）。 */
@@ -120,7 +123,7 @@ public class AdminPlanService {
         p.setPushedAt(LocalDateTime.now());
         planMapper.updateById(p);
         audit.record("plan", "push", id, "推送规划方案给客户：" + p.getTitle());
-        // TODO: 发订阅消息通知客户
+        wxSubscribe.notifyPlanPushed(p.getId(), p.getCustomerId(), p.getTitle());
         return p;
     }
 

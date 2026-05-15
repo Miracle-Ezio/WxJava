@@ -69,6 +69,14 @@
           <el-descriptions-item label="参考价格">¥ {{ selected.unitPrice || '—' }}</el-descriptions-item>
           <el-descriptions-item label="客户备注">{{ selected.customerNote || '—' }}</el-descriptions-item>
         </el-descriptions>
+
+        <div class="drawer-actions">
+          <el-button v-if="selected.status === 1" type="primary" @click="actConfirm">确认预约</el-button>
+          <el-button v-if="selected.status === 2" type="primary" @click="actCheckIn">客户到店</el-button>
+          <el-button v-if="selected.status === 3" type="success" @click="actComplete">标记完成</el-button>
+          <el-button v-if="[1,2].includes(selected.status)" @click="actCancel">取消预约</el-button>
+          <el-button v-if="selected.status === 2" type="danger" plain @click="actNoShow">标记爽约</el-button>
+        </div>
       </div>
     </el-drawer>
   </div>
@@ -77,7 +85,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { getSchedule, type ScheduleDay } from '@/api/schedule';
+import {
+  confirmAppointment, checkInAppointment, completeAppointment,
+  cancelAppointment, markNoShow,
+} from '@/api/appointment';
 
 const today = new Date().toISOString().slice(0, 10);
 const date = ref(today);
@@ -182,6 +195,43 @@ const weekdayLabel = computed(() => {
   return w[new Date(date.value).getDay()];
 });
 
+async function actConfirm() {
+  await confirmAppointment(selected.value.id);
+  ElMessage.success('已确认');
+  drawerOpen.value = false;
+  load();
+}
+async function actCheckIn() {
+  await checkInAppointment(selected.value.id);
+  ElMessage.success('客户已到店');
+  drawerOpen.value = false;
+  load();
+}
+async function actComplete() {
+  await completeAppointment(selected.value.id);
+  ElMessage.success('已完成');
+  drawerOpen.value = false;
+  load();
+}
+async function actCancel() {
+  const { value: reason } = await ElMessageBox.prompt('请输入取消原因', '取消预约', {
+    inputPlaceholder: '如：客户改期',
+    inputType: 'textarea',
+  }).catch(() => ({ value: null }));
+  if (reason === null) return;
+  await cancelAppointment(selected.value.id, reason || undefined);
+  ElMessage.success('已取消');
+  drawerOpen.value = false;
+  load();
+}
+async function actNoShow() {
+  await ElMessageBox.confirm('确认标记爽约？', '提示', { type: 'warning' });
+  await markNoShow(selected.value.id);
+  ElMessage.success('已标记爽约');
+  drawerOpen.value = false;
+  load();
+}
+
 onMounted(load);
 </script>
 
@@ -255,5 +305,13 @@ onMounted(load);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.drawer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #ECECEC;
 }
 </style>

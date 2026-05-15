@@ -226,6 +226,9 @@ const ROUTES = [
   { method: 'GET',  test: p => /^\/api\/appointments\/\d+$/.test(p),       fn: (p) => mockAppointmentDetail(p) },
   { method: 'POST', test: p => p === '/api/appointments',                  fn: (_, body) => mockBook(body) },
   { method: 'POST', test: p => /^\/api\/appointments\/\d+\/cancel/.test(p), fn: () => null },
+
+  // 订阅消息后端记录（演示模式直接 noop）
+  { method: 'POST', test: p => p === '/api/notify/subscribe-record',       fn: () => null },
 ];
 
 function pathOf(fullPath) {

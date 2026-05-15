@@ -1,4 +1,5 @@
 const auth = require('../../utils/auth');
+const subscribe = require('../../utils/subscribe');
 const app = getApp();
 
 Page({
@@ -22,16 +23,19 @@ Page({
 
   doLogin(profile) {
     this.setData({ loading: true });
-    auth.loginByCode(profile)
-      .then(data => {
-        wx.showToast({
-          title: data.newCustomer ? '欢迎加入 STARRY' : '欢迎回来',
-          icon: 'none',
-        });
-        wx.switchTab({ url: '/pages/home/index' });
-      })
-      .catch(err => { console.error(err); })
-      .finally(() => this.setData({ loading: false }));
+    // 同帧请求订阅消息授权（规划方案推送通知）
+    subscribe.requestForPlanPushed().finally(() => {
+      auth.loginByCode(profile)
+        .then(data => {
+          wx.showToast({
+            title: data.newCustomer ? '欢迎加入 STARRY' : '欢迎回来',
+            icon: 'none',
+          });
+          wx.switchTab({ url: '/pages/home/index' });
+        })
+        .catch(err => { console.error(err); })
+        .finally(() => this.setData({ loading: false }));
+    });
   },
 
   onProtocol() {
