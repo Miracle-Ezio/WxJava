@@ -1,0 +1,86 @@
+# STARRY 一键启动后端 + 数据库 + 缓存
+#
+# 用法（在本目录下执行）：
+#   docker compose up -d --build      首次或代码变更后
+#   docker compose logs -f server     看后端日志
+#   docker compose down               停止
+#   docker compose down -v            停止并清空数据库
+#
+# 启动完成后：
+#   - 后端 API:    http://localhost:8080
+#   - MySQL:       localhost:3306  (root/root)
+#   - Redis:       localhost:6379
+#
+# 前端 admin Web 依然用 npm run dev，会自动代理 /api 到本机 8080。
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: starry-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: starry_mb
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-authentication-plugin=caching_sha2_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: starry-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 10
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: starry-server
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_NAME: starry_mb
+      DB_USER: root
+      DB_PASSWORD: root
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+      # 演示用占位；正式上线时改成微信公众平台真实值
+      WX_MA_APPID: wx_demo_appid
+      WX_MA_SECRET: wx_demo_secret
+      # 生产请务必换成强随机值
+      JWT_SECRET: "starry-dev-secret-please-change-in-production-environment-1234567890"
+      # 腾讯云 COS 留空 → StorageService 走 NOOP，照片上传会报错但其它接口正常
+      COS_SECRET_ID: ""
+      COS_SECRET_KEY: ""
+      COS_REGION: "ap-beijing"
+      COS_BUCKET: ""
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  mysql-data:
+  redis-data:

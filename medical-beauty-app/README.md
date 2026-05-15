@@ -14,8 +14,12 @@ medical-beauty-app/
 
 ## 🚀 想先看效果？
 
-**5 分钟无后端预览**：装"微信开发者工具" → 打开 `miniapp/` 目录 → 选"测试号" → 点编译。
-完整步骤见 [`miniapp/README.md`](./miniapp/README.md#-快速预览无需后端5-分钟)。
+| 想看的东西 | 怎么做 | 用时 |
+| --- | --- | --- |
+| **只看小程序 UI** | 装"微信开发者工具" → 打开 `miniapp/` 选"测试号" → 编译 | 5 分钟 |
+| **完整体验**（小程序 + 后台 Web + 真后端） | 装 Docker Desktop + Node.js → 跑 `docker compose up` → `npm run dev` | 15 分钟 |
+
+完整启动步骤见 [`QUICK-START.md`](./QUICK-START.md) —— Windows 非开发者也能跟着做。
 
 演示数据照《彭蕾抗衰整体规划方案》PPT 还原，登录后所有页面都能点。
 
