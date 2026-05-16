@@ -3,6 +3,9 @@ FROM maven:3.9-eclipse-temurin-17 AS build
 
 WORKDIR /build
 
+# 国内 Maven 镜像，加速依赖拉取
+COPY .mvn-settings.xml /root/.m2/settings.xml
+
 # 先单独 COPY pom.xml 利用 Docker 缓存层，依赖不变时不重下
 COPY pom.xml .
 RUN mvn -B dependency:go-offline -q
