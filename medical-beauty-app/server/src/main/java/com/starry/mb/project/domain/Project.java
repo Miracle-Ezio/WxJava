@@ -1,5 +1,6 @@
 package com.starry.mb.project.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.starry.mb.common.domain.BaseEntity;
 import lombok.Data;
@@ -11,6 +12,10 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 @TableName("project")
 public class Project extends BaseEntity {
+    /** project 表是租户级，不分门店 */
+    @TableField(exist = false)
+    private Long storeId;
+
     private String name;
     private String category;
     private String coverUrl;

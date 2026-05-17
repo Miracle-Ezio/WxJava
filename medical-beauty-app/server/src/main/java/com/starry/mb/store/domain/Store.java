@@ -1,5 +1,6 @@
 package com.starry.mb.store.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.starry.mb.common.domain.BaseEntity;
 import lombok.Data;
@@ -11,6 +12,12 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 @TableName("store")
 public class Store extends BaseEntity {
+    /** store 本身就是门店，没有 store_id 列；V1 也没建 created_by */
+    @TableField(exist = false)
+    private Long storeId;
+    @TableField(exist = false)
+    private Long createdBy;
+
     private String name;
     private String address;
     private String phone;
