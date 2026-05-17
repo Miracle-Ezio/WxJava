@@ -1,5 +1,6 @@
 package com.starry.mb.appointment.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.starry.mb.common.domain.BaseEntity;
 import lombok.Data;
@@ -38,6 +39,12 @@ public class Appointment extends BaseEntity {
     private LocalDateTime checkedInAt;
     private LocalDateTime completedAt;
     private LocalDateTime cancelledAt;
+
+    /** 列名带数字，MyBatis-Plus 自动驼峰转换不准，必须显式标。 */
+    @TableField("reminded_24h_at")
     private LocalDateTime reminded24hAt;
+
+    @TableField("reminded_2h_at")
     private LocalDateTime reminded2hAt;
 }
+
