@@ -51,7 +51,7 @@ Page({
         if (inFlight) {
           nextReminder = {
             title: inFlight.title,
-            desc: '请按顾问建议的周期完成下一次治疗',
+            desc: '请按顾问建议的周期完成下一次护理',
           };
         }
         this.setData({ plans: list, nextReminder, loading: false });

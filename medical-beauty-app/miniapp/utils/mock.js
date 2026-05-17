@@ -2,7 +2,8 @@
  * Mock 演示数据 + 路由匹配。
  * 仅在 app.globalData.mockMode === true 时启用。
  *
- * 数据完全照 PPT 彭蕾抗衰整体规划方案，便于产品演示。
+ * 项目命名采用泛化护理用语，符合"美容美发"类目审核要求。
+ * 顾问在生产环境后台可以自行改成专业术语。
  */
 
 // ─────────────────────────────────────────────────────────
@@ -20,10 +21,10 @@ const LOGIN = {
 
 const PLAN_SUMMARY = {
   id: 1,
-  title: '彭蕾 · 抗衰整体规划方案',
-  subtitle: '面部抗衰 · 皮肤管理 · 长期跟踪',
+  title: '彭蕾 · 长期护理整体方案',
+  subtitle: '面部护理 · 皮肤管理 · 长期跟踪',
   coverUrl: '',
-  status: 4,                 // 执行中
+  status: 4,
   validFrom: '2025-05-04',
   validTo: '2026-05-04',
   totalPrice: '81160.00',
@@ -38,52 +39,51 @@ const PLAN_DETAIL = {
     ...PLAN_SUMMARY,
     consultantId: 1,
     analysisText:
-      '## 面部皮肤状况分析\n\n**优势**：皮肤紧致度相对较好、五官精致，角质层健康程度良好。\n\n' +
-      '**劣势**：毛孔粗大、肤色暗黄、色素沉淀形成皮肤底层色斑严重、皱纹加重、皮肤松弛、衰老快。\n\n' +
-      '## 面部衰老状况分析\n\n**劣势**：三庭比例上庭偏短，眼周衰老造成双眼皮松垂、眼周细纹增多、' +
-      '眼眶骨流失、眼睛微凸；口周衰老、口角囊袋明显、下巴下颌骨衔接不流畅；外轮廓不清晰、' +
-      '中面部松垂、苹果肌下移、法令纹加深、太阳穴凹陷。',
+      '## 面部皮肤状态分析\n\n**优势**：皮肤紧致度相对较好、五官精致，角质层健康程度良好。\n\n' +
+      '**关注重点**：毛孔需要细化、肤色需要提亮、色素沉淀、细纹、皮肤需要紧致护理。\n\n' +
+      '## 面部轮廓状态分析\n\n**关注重点**：三庭比例上庭偏短，眼周需要紧致护理；' +
+      '口周需要紧致；外轮廓需要细化、中面部需要提升、法令纹需要淡化、太阳穴需要饱满。',
   },
   consultantName: '沈妍希',
   sections: [
-    { id: 1, sort: 1, type: 'analysis',     title: '面部状况分析及抗衰规划', content: '' },
-    { id: 2, sort: 2, type: 'region_plan',  title: '第一步：T 区轮廓固定',
+    { id: 1, sort: 1, type: 'analysis',     title: '面部状态分析及护理规划', content: '' },
+    { id: 2, sort: 2, type: 'region_plan',  title: '第一步：T 区轮廓护理',
       content:
-        '**1、鼻子、眉骨、印堂**\n- 鼻子：收紧鼻背及周边皮肤组织，预防鼻背纹产生、内眼周皮肤组织松垂、立体支撑年轻化\n' +
-        '- 眉骨：有效支撑眼部、预防上面部皮肤组织松垂、提升上眼皮，眼眶骨有效支撑\n' +
-        '- 印堂：鼻部和眼皮皮肤收紧、有效衔接\n\n**2、下巴下颌骨**\n- 有效支撑预防嘴角肉，' +
-        '与下巴做好衔接，减缓双下巴形成，下颌线清晰',
+        '**1、鼻子、眉骨、印堂**\n- 鼻子：收紧鼻背及周边皮肤组织、立体支撑塑形\n' +
+        '- 眉骨：有效支撑眼部、上面部皮肤紧致、眼周轮廓提升\n' +
+        '- 印堂：鼻部和眼皮皮肤收紧、有效衔接\n\n' +
+        '**2、下巴下颌骨**\n- 有效支撑下颌轮廓、与下巴线条衔接、下颌线清晰',
     },
-    { id: 3, sort: 3, type: 'region_plan',  title: '第二步：下庭抗衰',
+    { id: 3, sort: 3, type: 'region_plan',  title: '第二步：下庭轮廓护理',
       content:
-        '**1、口周年轻化**：解决法令纹、口角囊袋、收紧口周皮肤，下庭年轻化\n\n' +
-        '**2、唇**：弱化人中长显老、改善唇纹，让唇部回到年轻态',
+        '**1、口周护理**：淡化法令纹、改善口角线条、收紧口周皮肤\n\n' +
+        '**2、唇部护理**：改善人中比例、淡化唇纹，让唇部线条更柔和',
     },
-    { id: 4, sort: 4, type: 'project_list', title: '皮肤项目建议',
+    { id: 4, sort: 4, type: 'project_list', title: '皮肤护理建议',
       content:
-        '1. **皮肤营养补充**：胶原蛋白类水光、童颜水光\n' +
-        '2. **皮肤黑色素改善**：黑金超光子\n' +
-        '3. **皮肤松垂改善**：芮艾缇少女枪',
+        '1. **皮肤营养补充**：胶原焕颜补水、青春焕颜补水\n' +
+        '2. **皮肤色素改善**：焕颜光疗\n' +
+        '3. **皮肤紧致改善**：弹力紧致护理',
     },
-    { id: 5, sort: 5, type: 'material',     title: '抗衰材料推荐',
-      content: '伊妍仕少女针 · 艾维岚童颜针 · 人源三型胶原蛋白 · 微笑欣颜' },
-    { id: 6, sort: 6, type: 'package',      title: '套餐活动', content: '' },
+    { id: 5, sort: 5, type: 'material',     title: '护理产品推荐',
+      content: '焕颜疗程 A · 焕颜疗程 B · 胶原焕活复合物 · 立体焕颜组合' },
+    { id: 6, sort: 6, type: 'package',      title: '套餐组合', content: '' },
   ],
   items: [
-    { id: 1, projectId: 1, projectName: '黑金超光子',         plannedCount: 3, doneCount: 2,
+    { id: 1, projectId: 1, projectName: '焕颜光疗',           plannedCount: 3, doneCount: 2,
       unitPrice: '3333.33', activityPrice: '3333.33', totalPrice: '10000.00', status: 2 },
-    { id: 2, projectId: 2, projectName: '双生水光',           plannedCount: 5, doneCount: 2,
+    { id: 2, projectId: 2, projectName: '深层补水护理',       plannedCount: 5, doneCount: 2,
       unitPrice: '4360.00', activityPrice: '4360.00', totalPrice: '21800.00', status: 2 },
-    { id: 3, projectId: 3, projectName: '芮艾缇少女枪',       plannedCount: 1, doneCount: 0,
+    { id: 3, projectId: 3, projectName: '弹力紧致护理',       plannedCount: 1, doneCount: 0,
       unitPrice: '5980.00', activityPrice: '5980.00', totalPrice: '5980.00',  status: 1 },
-    { id: 4, projectId: 4, projectName: '伊妍仕少女针 1 代 ×3 支', plannedCount: 3, doneCount: 0,
+    { id: 4, projectId: 4, projectName: '焕颜疗程 A · 3 次',  plannedCount: 3, doneCount: 0,
       unitPrice: '19800.00', activityPrice: '15800.00', totalPrice: '47400.00', status: 1 },
-    { id: 5, projectId: 6, projectName: '衡力（包年）',       plannedCount: 3, doneCount: 0,
+    { id: 5, projectId: 6, projectName: '表情舒展护理（包年）', plannedCount: 3, doneCount: 0,
       unitPrice: '3980.00', activityPrice: '3980.00', totalPrice: '3980.00',  status: 1 },
   ],
 };
 
-// 用 unsplash 演示人像（开发工具里勾选"不校验合法域名"即可加载）
+// 演示人像（开发工具勾选"不校验合法域名"即可加载）
 const FACE = (seed) => `https://picsum.photos/seed/starry-${seed}/600/800`;
 
 const PHOTOS_TIMELINE = [
@@ -122,29 +122,29 @@ const PHOTOS_TIMELINE = [
 
 const QUICK_COMPARE = {
   mode: 'first-vs-latest',
-  before: PHOTOS_TIMELINE[3].photos[0], // 2025-05 首张
-  after:  PHOTOS_TIMELINE[0].photos[0], // 2026-05 最新
+  before: PHOTOS_TIMELINE[3].photos[0],
+  after:  PHOTOS_TIMELINE[0].photos[0],
 };
 
 const PROJECTS = [
-  { id: 1, name: '黑金超光子',     category: '光电', durationMin: 60, unitPrice: '3333.33',
-    description: '改善皮肤黑色素沉淀、肤色暗黄、毛孔粗大、细纹' },
-  { id: 2, name: '双生水光',       category: '注射', durationMin: 90, unitPrice: '4360.00',
-    description: '皮肤营养补充：胶原蛋白类水光 + 童颜水光' },
-  { id: 3, name: '芮艾缇少女枪',   category: '光电', durationMin: 60, unitPrice: '5980.00',
-    description: '皮肤松垂改善 · 紧致提升' },
-  { id: 4, name: '伊妍仕少女针',   category: '注射', durationMin: 90, unitPrice: '15800.00',
-    description: 'PCL 类长效胶原刺激剂 · 抗衰填充' },
-  { id: 5, name: '艾维岚童颜针',   category: '注射', durationMin: 60, unitPrice: '8800.00',
-    description: 'PLLA 类胶原刺激剂' },
-  { id: 6, name: '衡力（包年）',   category: '注射', durationMin: 30, unitPrice: '3980.00',
-    description: '川字纹放松 · 抗皱' },
+  { id: 1, name: '焕颜光疗',         category: '光疗', durationMin: 60, unitPrice: '3333.33',
+    description: '改善皮肤色素沉淀、肤色暗沉、毛孔细化、细纹' },
+  { id: 2, name: '深层补水护理',     category: '护理', durationMin: 90, unitPrice: '4360.00',
+    description: '皮肤营养补充：胶原焕颜 + 青春焕颜组合' },
+  { id: 3, name: '弹力紧致护理',     category: '紧致', durationMin: 60, unitPrice: '5980.00',
+    description: '皮肤紧致改善 · 弹力提升' },
+  { id: 4, name: '焕颜疗程 A',       category: '焕颜', durationMin: 90, unitPrice: '15800.00',
+    description: '长效胶原焕活 · 轮廓塑形' },
+  { id: 5, name: '焕颜疗程 B',       category: '焕颜', durationMin: 60, unitPrice: '8800.00',
+    description: '胶原焕活 · 紧致护理' },
+  { id: 6, name: '表情舒展护理（包年）', category: '护理', durationMin: 30, unitPrice: '3980.00',
+    description: '表情纹舒展 · 包年套餐' },
 ];
 
 const APPOINTMENTS = [
   {
     id: 101, storeId: 1, storeName: '思达芮旗舰店',
-    projectId: 2, projectName: '双生水光', unitPrice: '4360.00', durationMin: 90,
+    projectId: 2, projectName: '深层补水护理', unitPrice: '4360.00', durationMin: 90,
     startAt: getRelativeISO(3, 14, 0),
     endAt:   getRelativeISO(3, 15, 30),
     status: 2, statusLabel: '已确认', source: 1,
@@ -153,7 +153,7 @@ const APPOINTMENTS = [
   },
   {
     id: 100, storeId: 1, storeName: '思达芮旗舰店',
-    projectId: 1, projectName: '黑金超光子', unitPrice: '3333.33', durationMin: 60,
+    projectId: 1, projectName: '焕颜光疗', unitPrice: '3333.33', durationMin: 60,
     startAt: getRelativeISO(-21, 11, 0),
     endAt:   getRelativeISO(-21, 12, 0),
     status: 4, statusLabel: '已完成', source: 1,
@@ -162,7 +162,7 @@ const APPOINTMENTS = [
   },
   {
     id: 99, storeId: 1, storeName: '思达芮旗舰店',
-    projectId: 1, projectName: '黑金超光子', unitPrice: '3333.33', durationMin: 60,
+    projectId: 1, projectName: '焕颜光疗', unitPrice: '3333.33', durationMin: 60,
     startAt: getRelativeISO(-49, 11, 0),
     endAt:   getRelativeISO(-49, 12, 0),
     status: 4, statusLabel: '已完成', source: 1,
@@ -227,7 +227,6 @@ const ROUTES = [
   { method: 'POST', test: p => p === '/api/appointments',                  fn: (_, body) => mockBook(body) },
   { method: 'POST', test: p => /^\/api\/appointments\/\d+\/cancel/.test(p), fn: () => null },
 
-  // 订阅消息后端记录（演示模式直接 noop）
   { method: 'POST', test: p => p === '/api/notify/subscribe-record',       fn: () => null },
 ];
 
@@ -316,7 +315,7 @@ function match(method, fullPath, body) {
       return Promise.resolve(data);
     }
   }
-  return null; // 不匹配，回落到真实请求
+  return null;
 }
 
 module.exports = { match };
