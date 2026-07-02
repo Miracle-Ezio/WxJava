@@ -1,0 +1,121 @@
+# ─── STARRY 生产环境（体验版 / 内部使用）示例 ────────────────────
+#
+# 用法：
+#   1. 复制一份到服务器：cp docker-compose.prod.example.yml docker-compose.prod.yml
+#   2. 把所有 ###替换我### 的地方改成真实值
+#   3. docker compose -f docker-compose.prod.yml up -d --build
+#
+# 与开发用 docker-compose.yml 的差别：
+#   - 端口不对外映射（8080、3306、6379 不再暴露公网，只走 nginx 反代）
+#   - 强密码、JWT 密钥、真实微信 AppID
+#   - 添加日志 rotation 防磁盘炸
+#   - MySQL 数据卷做外部挂载，方便备份
+#
+# 生成 JWT_SECRET 的命令：
+#   openssl rand -base64 48
+#
+# 生成 DB 强密码的命令：
+#   openssl rand -base64 20
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: starry-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "###替换我: 20位以上强密码，同步下面 DB_PASSWORD###"
+      MYSQL_DATABASE: starry_mb
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-authentication-plugin=caching_sha2_password
+    # ⚠ 生产不对外映射 MySQL 端口
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "3"
+
+  redis:
+    image: redis:7-alpine
+    container_name: starry-redis
+    restart: unless-stopped
+    # ⚠ 生产不对外映射 Redis 端口
+    volumes:
+      - ./data/redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 10
+    logging:
+      driver: json-file
+      options:
+        max-size: "20m"
+        max-file: "3"
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: starry-server
+    restart: unless-stopped
+    ports:
+      # 只监听本机 127.0.0.1，nginx 通过内网转发
+      - "127.0.0.1:8080:8080"
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_NAME: starry_mb
+      DB_USER: root
+      DB_PASSWORD: "###替换我: 与上面 MYSQL_ROOT_PASSWORD 保持一致###"
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+
+      # ─── 微信小程序凭据（mp.weixin.qq.com 拿到）───
+      WX_MA_APPID: "###替换我: wx开头的小程序AppID###"
+      WX_MA_SECRET: "###替换我: 小程序AppSecret###"
+
+      # ─── JWT 密钥（openssl rand -base64 48 生成）───
+      JWT_SECRET: "###替换我: 48+字节高熵字符串，不能与开发用同一个###"
+
+      # ─── 腾讯云 COS（客户照片存储；可选，留空则照片模块降级）───
+      COS_SECRET_ID: "###替换我: 腾讯云 SecretId，或留空###"
+      COS_SECRET_KEY: "###替换我: 腾讯云 SecretKey，或留空###"
+      COS_REGION: "ap-beijing"
+      COS_BUCKET: "###替换我: 私有桶名，如 starry-private-1300000000###"
+
+      # ─── 订阅消息模板 ID（申请通过后填；不填也不会报错，只是消息发不出）───
+      STARRY_SUBSCRIBE_MSG_APPOINTMENT_CONFIRMED: "###替换我: 预约确认模板ID###"
+      STARRY_SUBSCRIBE_MSG_REMINDER_24H:          "###替换我: 24h提醒模板ID###"
+      STARRY_SUBSCRIBE_MSG_REMINDER_2H:           "###替换我: 2h提醒模板ID###"
+      STARRY_SUBSCRIBE_MSG_PLAN_PUSHED:           "###替换我: 方案推送模板ID###"
+
+      # ─── JVM 参数（2G 服务器建议）───
+      JAVA_OPTS: "-Xms256m -Xmx1024m -Duser.timezone=Asia/Shanghai"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+# 数据卷说明：
+#   ./data/mysql/  → MySQL 数据文件
+#   ./data/redis/  → Redis 快照
+#
+# 备份脚本（放 crontab）：
+#   0 3 * * * cd /opt/WxJava/medical-beauty-app && \
+#     docker compose -f docker-compose.prod.yml exec -T mysql \
+#     mysqldump -uroot -p"$$DB_PASSWORD" starry_mb > /opt/backups/db-$(date +\%F).sql

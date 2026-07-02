@@ -23,6 +23,17 @@ medical-beauty-app/
 
 演示数据照《彭蕾抗衰整体规划方案》PPT 还原，登录后所有页面都能点。
 
+## 🚢 想上线给客户用？
+
+选一条路：
+
+| 路线 | 覆盖范围 | 上线周期 | 首年成本 | 手册 |
+| --- | --- | --- | --- | --- |
+| **体验版（内部授权）** | 100 人以内白名单，甲方员工 + VIP 客户 | 3–7 天 | ~2500 元 | [`DEPLOY-INTERNAL.md`](./DEPLOY-INTERNAL.md) |
+| **正式版（公域可搜）** | 全微信用户可搜可用 | 3–6 周（含审核） | ~2000–5000 元 | [`DEPLOY.md`](./DEPLOY.md) |
+
+法务模板：[`LEGAL-PRIVACY.md`](./LEGAL-PRIVACY.md) · [`LEGAL-TERMS.md`](./LEGAL-TERMS.md)
+
 ## 当前进度（一期 MVP — 基本完成）
 
 **已完成：**
